@@ -1,7 +1,14 @@
 /** @type {import('tailwindcss').Config} */
+import tailwindcssAnimate from 'tailwindcss-animate';
+
 export default {
   darkMode: ["class"],
-  content: ["./pages/**/*.{js,jsx}", "./components/**/*.{js,jsx}", "./app/**/*.{js,jsx}", "./src/**/*.{js,jsx}"],
+  content: [
+    "./pages/**/*.{js,jsx}",
+    "./components/**/*.{js,jsx}",
+    "./app/**/*.{js,jsx}",
+    "./src/**/*.{js,jsx}",
+  ],
   theme: {
     extend: {
       colors: {
@@ -46,7 +53,7 @@ export default {
           900: "#2D2D2D",
         },
         buttonFill: {
-          900: "w-30 h-7", // Note: this is not a valid color value, Tailwind CSS expects hex, rgb, or named colors
+          900: "w-30 h-7", // This should be a valid color value
         },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -129,5 +136,5 @@ export default {
       "min-sm": { min: "640px" },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [tailwindcssAnimate],
 };
