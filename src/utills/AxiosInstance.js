@@ -6,7 +6,7 @@ const axiosInstance = axios.create({
   //baseURL: `${import.meta.env.VITE_APP_VITEAPPLOCAL}/`,
   //baseURL: "https://backend-avatar-local.onrender.com/",
 // baseURL:"http://localhost:3000/"
-baseURL: "https://f6f0-2401-4900-1c6f-c113-a81f-6033-3c87-e688.ngrok-free.app/"
+baseURL: "https://avatarbackend-4v41.onrender.com/"
 
 
 });
