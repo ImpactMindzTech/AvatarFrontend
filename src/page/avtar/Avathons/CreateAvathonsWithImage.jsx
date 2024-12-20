@@ -18,11 +18,7 @@ import { formatTimeToHHMM } from "@/constant/date-time-format/DateTimeFormat";
 import { CreateAvathonsApi } from "@/utills/service/avtarService/CreateAvathonsService";
 
 const CreateAvathonsWithImagePage = () => {
-
-
-
-
-  const [countries, setCountries] = useState([]);
+ const [countries, setCountries] = useState([]);
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
   const [selectedCountry, setSelectedCountry] = useState(null);
@@ -38,6 +34,9 @@ const CreateAvathonsWithImagePage = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [otherSelectedFiles, setOtherSelectedFiles] = useState([]);
   const [imageURL, setImageURL] = useState(null);
+  const [videoURL, setVideoURL] = useState(null);
+  const [videoDuration, setVideoDuration] = useState(0);
+  const videoInput = useRef(null);
   const [otherImageURLs, setOtherImageURLs] = useState([]);
   const mainImage = useRef(null);
   const otherImage = useRef(null);
@@ -59,19 +58,19 @@ const CreateAvathonsWithImagePage = () => {
     }
   };
 
-  const handleFileChange = (e) => {
-    if (e.target.files && e.target.files.length > 0) {
-      const file = e.target.files[0];
+  // const handleFileChange = (e) => {
+  //   if (e.target.files && e.target.files.length > 0) {
+  //     const file = e.target.files[0];
 
-      if (!file.type.startsWith("image/")) {
-        toast.error("Please select a valid image file.");
-        return;
-      }
+  //     if (!file.type.startsWith("image/")) {
+  //       toast.error("Please select a valid image file.");
+  //       return;
+  //     }
 
-      setSelectedFile(file);
-      setImageURL(URL.createObjectURL(file));
-    }
-  };
+  //     setSelectedFile(file);
+  //     setImageURL(URL.createObjectURL(file));
+  //   }
+  // };
   const handleOtherFileChange = (e) => {
     if (e.target.files) {
       const files = Array.from(e.target.files);
@@ -96,10 +95,45 @@ const CreateAvathonsWithImagePage = () => {
     }
   };
 
-  const handleRemoveMainImage = () => {
-    setImageURL(null);
-    setSelectedFile(null);
-  };
+ // Handle video file change
+ const handleFileChange = (e) => {
+  if (e.target.files && e.target.files.length > 0) {
+    const file = e.target.files[0];
+
+    if (!file.type.startsWith("video/")) {
+      toast.error("Please select a valid video file.");
+      return;
+    }
+ 
+    // Create a URL for the video file
+    const videoObjectURL = URL.createObjectURL(file);
+    setVideoURL(videoObjectURL);
+
+    setSelectedFile(file);
+
+    // Create a video element to check the duration
+    const videoElement = document.createElement("video");
+    videoElement.src = videoObjectURL;
+
+    videoElement.onloadedmetadata = () => {
+      const duration = videoElement.duration;
+      if (duration > 30) {
+        toast.error("Video must be less than or equal to 30 seconds.");
+        setVideoURL(null);
+        setSelectedFile(null);
+      } else {
+        setVideoDuration(duration);
+      }
+    };
+  }
+};
+
+// Handle video remove
+const handleRemoveVideo = () => {
+  setVideoURL(null);
+  setSelectedFile(null);
+  setVideoDuration(0);
+};
 
   const handleRemoveOtherImage = (index) => {
     const updatedFiles = otherSelectedFiles.filter((_, i) => i !== index);
@@ -143,7 +177,8 @@ const CreateAvathonsWithImagePage = () => {
 
   const onSubmit = async (data) => {
     if (!selectedFile) {
-      toast.error("Please Select Image");
+      toast.error("Please Select a Video");
+      return;
     }
     const formData = new FormData();
     if (!selectedCountry) {
@@ -171,7 +206,8 @@ const CreateAvathonsWithImagePage = () => {
     formData.append("lat", coordinates.lat);
     formData.append("lng", coordinates.lon);
 
-    formData.append(`thumbnail`, selectedFile);
+    formData.append(`video`, selectedFile);
+ 
     for (let index = 0; index < otherSelectedFiles.length; index++) {
       formData.append(`images`, otherSelectedFiles[index]);
     }
@@ -180,7 +216,7 @@ const CreateAvathonsWithImagePage = () => {
       setLoader(true);
       const response = await CreateAvathonsApi(formData);
       setLoader(false);
-      Setdisable(true);
+
       if (response?.isSuccess) {
         toast.success(response?.message);
         Setdisable(false);
@@ -279,7 +315,7 @@ const CreateAvathonsWithImagePage = () => {
                 {selectedFile && (
                   <div
                     className="cursor-pointer bg-white p-4 sm:p-2 rounded-md BoxShadowLessRounded"
-                    onClick={handleRemoveMainImage}
+                    onClick={handleRemoveVideo}
                   >
                     <img
                       src={Images.close}
@@ -294,17 +330,17 @@ const CreateAvathonsWithImagePage = () => {
 
               
 
-              {!imageURL ? (
+              {!videoURL  ? (
                 <div
-                  onClick={handleMainImageClick}
+                onClick={() => videoInput.current.click()}
                   className="border rounded-lg w-full  h-[240px] sm:h-[140px] bg-[#f2f2f2] border-[#e2e2e2] flex justify-center items-center flex-col cursor-pointer group py-5"
                 >
-                  <input
+                   <input
                     className="hidden"
                     onChange={handleFileChange}
-                    ref={mainImage}
+                    ref={videoInput}
                     type="file"
-                    accept="image/*"
+                    accept="video/*"
                   />
                   <div className="flex justify-center p-2 bg-white rounded-md">
                     <img
@@ -314,16 +350,26 @@ const CreateAvathonsWithImagePage = () => {
                     />
                   </div>
                   <h1 className="text-center text-grey-800 pt-2 font-semibold group-hover:text-grey-900 sm:text-base">
-                    Main Image
+                    Add Video
                   </h1>
+                  <span className="text-center text-grey-800 pt-2 font-semibold group-hover:text-grey-900 sm:text-base">Less than 30 seconds</span>
                 </div>
               ) : (
-                <img
-                  src={imageURL}
-                  alt="Selected"
-                  className="w-full object-cover rounded-2xl z-10 h-[240px] sm:h-[140px]"
-                />
+                <div className="relative w-full h-[240px] sm:h-[140px]">
+                  <video
+                    src={videoURL}
+                    controls
+                    className="w-full h-full object-cover rounded-2xl"
+                  />
+                  <div className="absolute top-0 right-0 bg-white p-2 rounded-full cursor-pointer" onClick={handleRemoveVideo}>
+                    <img src={Images.close} alt="remove" className="w-6 h-6" />
+                  </div>
+                </div>
               )}
+               {videoDuration > 0 && (
+                <p className="text-center text-gray-600 mt-2">{`Duration: ${Math.floor(videoDuration)} seconds`}</p>
+              )}
+              
             </div>
 
             <div className="w-[49%] h-full relative">
@@ -347,7 +393,7 @@ const CreateAvathonsWithImagePage = () => {
                   />
                 </div>
                 <h1 className="text-center text-grey-800 pt-2 font-semibold group-hover:text-grey-900 sm:text-base">
-                  Other Images
+                  Add Images
                 </h1>
               </div>
             </div>
@@ -432,7 +478,8 @@ const CreateAvathonsWithImagePage = () => {
                 name="avathonDate"
                 id="avathonDate"
                 className="input my-2 "
-                {...register("avathonDate")}
+                value={selectedDate}
+                onChange={(e) => setSelectedDate(e.target.value)}
 
               />
               <p className="text-[red]">{errors?.avathonDate?.message}</p>
@@ -446,7 +493,9 @@ const CreateAvathonsWithImagePage = () => {
                 name="Time"
                 id="Time"
                 className="input my-2"
-                {...register("Time")}
+                value={selectedTime}
+          
+                onChange={(e) => setSelectedTime(e.target.value)}
               />
               <p className="text-[red]">{errors?.Time?.message}</p>
             </div>
@@ -464,7 +513,7 @@ const CreateAvathonsWithImagePage = () => {
                 </span>
               </label>
               <input
-                type="text"
+                type="Number"
                 name="EarlybirdPrice"
                 id="EarlybirdPrice"
                 className="input my-2"
@@ -488,7 +537,7 @@ const CreateAvathonsWithImagePage = () => {
                 <div><img src={Images.info} className="w-4"/></div>
             </div> */}
               <input
-                type="text"
+                type="number"
                 name="RegularPrice"
                 id="RegularPrice"
                 className="input my-2"

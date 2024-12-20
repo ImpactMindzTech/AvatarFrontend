@@ -51,7 +51,7 @@ const handleEditAvathons = (item) => {
       <div className="BoxShadowLessRounded  sm:pb-2">
         <div className="flex p-4 flex-wrap sm:p-2">
           <div className="w-[30%] relative">
-            <img
+            <video
               src={item?.avathonsThumbnail || Images.cardImageRounded}
               alt="cardImageRounded"
               className="w-full object-cover h-full rounded-lg aspect-square"

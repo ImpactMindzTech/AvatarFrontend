@@ -49,12 +49,14 @@ function MyAvathonsCard({ item, onDelete }) {
       <div className="card">
         <div className="w-full relative">
           <div className="absolute top-2 right-2 flex gap-2">
-            <div onClick={() => handleEditAvathons(item)} className="bg-white p-2 rounded-md BoxShadowLessRounded sm:p-1 cursor-pointer">
-              <img src={Images.edit} alt="edit" className="w-6 h-6 sm:w-4 sm:h-4" />
-            </div>
         
           </div>
-          <img src={item?.avathonsThumbnail} alt="banner" className="w-[100%] aspect-[1.4] object-cover rounded-2xl" />
+          <video
+                    src={item?.avathonsThumbnail}
+                    controls
+                    className="w-[100%] aspect-[1.4] object-cover rounded-2xl"
+                  />
+        
         </div>
         <h1 className="text-grey-900 my-2 leading-6 xl:text-lg md:text-sm md:mb-1">
           {item?.avathonTitle}, {item?.Country}

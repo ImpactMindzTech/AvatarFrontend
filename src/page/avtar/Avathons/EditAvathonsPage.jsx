@@ -86,11 +86,11 @@ console.log(state);
   const handleFileChange = (e) => {
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files[0];
-      if (file.type.startsWith("image/")) {
+      if (file.type.startsWith("video/")) {
         setSelectedFile(file);
         setImageURL(URL.createObjectURL(file));
       } else {
-        toast.error("Please upload a valid image file.");
+        toast.error("Please upload a valid video file.");
       }
     }
   };
@@ -227,7 +227,7 @@ console.log(state);
       return;
     }
     if (selectedFile) {
-      formData.append("avathonsThumbnail", selectedFile);
+      formData.append("video", selectedFile);
       formData.append("removeThumbnail", true);
     } else {
       formData.append("removeThumbnail", false);
@@ -279,7 +279,7 @@ console.log(state);
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="flex justify-between my-4 flex-wrap">
             <div className="w-[49%] relative">
-              <div className="absolute top-2 right-2 flex gap-2">
+              <div className="absolute top-2 right-2 flex gap-2 z-50">
                 {/* <div className="bg-white p-4 sm:p-2 rounded-md BoxShadowLessRounded">
                 <img src={Images.rotate} alt="edit" className="cursor-pointer w-6 h-6" />
               </div> */}
@@ -289,7 +289,7 @@ console.log(state);
                       onClick={handleRemoveMainImage}
                       src={Images.close}
                       alt="remove"
-                      className="cursor-pointer w-6 h-6"
+                      className="cursor-pointer w-6 h-6 "
                     />
                   </div>
                 )}
@@ -305,7 +305,7 @@ console.log(state);
                     onChange={handleFileChange}
                     ref={mainImage}
                     type="file"
-                    accept="image/*"
+                    accept="video/*"
                   />
                   <div className="flex justify-center p-2 bg-white rounded-md">
                     <img
@@ -319,8 +319,9 @@ console.log(state);
                   </h1>
                 </div>
               ) : (
-                <img
+                <video
                   src={imageURL}
+                  controls
                   alt="Selected"
                   className="w-full object-cover rounded-2xl z-10 h-[240px] sm:h-[140px]"
                 />

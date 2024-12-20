@@ -2,6 +2,7 @@ import axiosInstance from "@/utills/AxiosInstance";
 import toast from "react-hot-toast";
 
 export const CreateAvathonsApi = async (payload) => {
+  console.log(payload,"payload")
   try {
     const res = await axiosInstance.post("/avatar/createavathons", payload);
     return res.data;

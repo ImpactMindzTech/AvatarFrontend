@@ -103,9 +103,8 @@ export const createAvathonsValidation = yup.object({
   Availablespots:yup.number().required("Availablespots is required.").min(1,"Available spots must at least 1"),
   aboutStream:yup.string().required("About Stream is required."),
   avathonDescription:yup.string().required("Avathon Description is required."),
-  avathonDate:yup.string().required("Date is required."),
-  Time
-:yup.string().required("Time is required."),
+  // avathonDate:yup.string().required("Date is required."),
+  // Time:yup.string().required("Time is required."),
 });
 export const editAvathonsValidation = yup.object({
   AvathonName:yup.string().required("AvathonName is required."),
