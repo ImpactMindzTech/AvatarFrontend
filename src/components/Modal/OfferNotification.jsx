@@ -26,7 +26,7 @@ const OfferNotification = ({ data }) => {
   const onJoin = () => {
  
     const roomId = data.generatedRoomId;
-    window.location.href = `/room_join/${roomId}`;
+    window.location.href = `/user/room_join/${roomId}`;
     setofferData(null);
     localStorage.removeItem("offerData");
   };

@@ -12,7 +12,7 @@ function Payment_Success_Join_Room() {
   let id = localStorage.getItem('r');
 
   const joinpublic = ()=>{
-    navigate(`/room_join/${id}`);
+    navigate(`/user/room_join/${id}`);
   }
 
 

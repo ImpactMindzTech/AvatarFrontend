@@ -24,7 +24,7 @@ const MeetingNotification = ({ data }) => {
      
   const onJoin = () => {
     const roomId = notificationData.roomId;
-    window.location.href = `/room_join/${roomId}`;
+    window.location.href = `/user/room_join/${roomId}`;
     setNotificationData(null);
     localStorage.removeItem("notificationData");
   };

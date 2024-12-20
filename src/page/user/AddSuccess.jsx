@@ -34,7 +34,7 @@ function  AddSuccess() {
     }
   }, []);
   const handleclick = ()=>{
-    navigate(`/room_join/${meetdata}`)
+    navigate(`/user/room_join/${meetdata}`)
   }
   return (
     <div className="container">

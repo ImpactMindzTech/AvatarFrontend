@@ -35,7 +35,7 @@ const BookedCard = ({ item }) => {
 
   const acceptBooking = () => {
 
-    navigate("/room_join/" + roomId);
+    navigate("/user/room_join/" + roomId);
   };
 
   const cancelBooking = async (status,item) => {

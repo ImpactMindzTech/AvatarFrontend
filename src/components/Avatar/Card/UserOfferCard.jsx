@@ -26,7 +26,7 @@ export default function OffersCard({ state, item }) {
 
   const handlejoin = () => {
     socket.connect();
-    window.location.href = `/room_join/${rid}`;
+    window.location.href = `/user/room_join/${rid}`;
   };
 
   const handlecomplete = async (item) => {
