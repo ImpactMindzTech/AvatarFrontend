@@ -39,7 +39,7 @@ const BookedCard = ({ item, role }) => {
       const generatedRoomId = roomId || Math.random().toString(36).substr(2, 2);
       setRoomId(generatedRoomId);
       setLocalStorage("roomId", generatedRoomId);
-      navigate(`/room_create/${generatedRoomId}`);
+      navigate(`/avatar/room_create/${generatedRoomId}`);
     
   };
 

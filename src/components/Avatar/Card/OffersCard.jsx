@@ -66,7 +66,7 @@ export default function OffersCard({ state, item }) {
     socket.connect();
     const generatedRoomId = Math.random().toString(36).substr(2, 2);
     socket.emit("offerId", { generatedRoomId, item });
-    navigate(`/room_create/${generatedRoomId}`);
+    navigate(`/avatar/room_create/${generatedRoomId}`);
   };
 
   return (
