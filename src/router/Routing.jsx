@@ -158,20 +158,17 @@ const router = createBrowserRouter([
     // element: <Root />,
   },
   {
+    path: "/admin/room_join/:id",
+    element: <RoomJoin />,
+    // element: <Root />,
+  },
+  {
     path: "/privacy",
     element: <Privacy />,
     // element: <Root />,
   },
-  {
-    path: "/room_create/:id",
-    element: <RoomCreate />,
-    // element: <Root />,
-  },
-  {
-    path: "/room_join/:id",
-    element: <RoomJoin />,
-    // element: <Root />,
-  },
+
+
 
   {
     path: "/auth",
@@ -304,6 +301,11 @@ const router = createBrowserRouter([
             <AccountInfo />
           </DashboardLayout>
         ),
+      },
+      {
+        path: "room_join/:id",
+        element: <RoomJoin />,
+        // element: <Root />,
       },
       {
         path: "chat-support",
@@ -611,6 +613,11 @@ const router = createBrowserRouter([
             <ReportBug/>
             </AvatarLayout>
         ),
+      },
+      {
+        path: "room_create/:id",
+        element: <RoomCreate />,
+        // element: <Root />,
       },
       {
         path: "update-experience",
