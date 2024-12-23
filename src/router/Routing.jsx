@@ -91,6 +91,9 @@ import CheckOut from "@/page/user/checkout/CheckOut";
 import CreateNewAvathonsPage from "@/page/avtar/Avathons/CreateNewAvathonsPage";
 import CreateAvathonsWithImagePage from "@/page/avtar/Avathons/CreateAvathonsWithImage";
 import EditAvathonsPage from "@/page/avtar/Avathons/EditAvathonsPage";
+import MainAvathonDetails from "@/page/user/home/MainBookAvathonDetails";
+import MainBookAvathonDetails from "@/page/user/home/MainBookAvathonDetails";
+import Book_Avathon_Details from "@/page/user/home/Book_Avathon_Details";
 
 const router = createBrowserRouter([
   {
@@ -171,7 +174,14 @@ const router = createBrowserRouter([
     element: <Privacy />,
     // element: <Root />,
   },
-
+  {
+    path: "/book-avathon/:id",
+    element: (
+      <MainLayout>
+        <MainBookAvathonDetails />
+      </MainLayout>
+    ),
+  },
 
 
   {
@@ -252,6 +262,7 @@ const router = createBrowserRouter([
           </AuthLayout>
         ),
       },
+      
     ],
   },
   {
@@ -600,6 +611,14 @@ const router = createBrowserRouter([
       {
         path: "new-page",
         element: <NewPage />,
+      },
+      {
+        path: "book-avathon/:id",
+        element: (
+          <DashboardLayout>
+            <Book_Avathon_Details />
+          </DashboardLayout>
+        ),
       },
     ],
   },
