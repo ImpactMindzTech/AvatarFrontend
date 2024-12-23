@@ -27,7 +27,7 @@ const MainHomePage = () => {
   const [instantLiveModalState, setInstantLiveModalState] = useState(false);
   const [multipleAddressModalState, setMultipleAddressModalState] =
     useState(false);
-  const [activeTab, setActiveTab] = useState("All");
+  const [activeTab, setActiveTab] = useState("Feature Event");
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
   const [meetlink, setmeetlink] = useState("");
@@ -43,8 +43,8 @@ const MainHomePage = () => {
   
   // Define tabs
   const tabs = [
-    { key: "Popular Event", query: "popular event" },
-    { key: "Feature Event", query: "feature event" },
+  
+    { key: "Feature Event", query: "featureevent" },
     { key: "All", query: "all" },
     { key: "Popular", query: "popular" },
     { key: "Recommended", query: "recommended" },
@@ -64,8 +64,9 @@ const MainHomePage = () => {
     async (tab, page) => {
       const country =
         getLocalStorage("selectedCountry") || getLocalStorage("user")?.Country||"United States";
+      
       const payload = {
-        tab: tab,
+        tab: tab.replace(/\s+/g, ''),
         country: country,
         search: search,
         page: page,
@@ -110,7 +111,7 @@ const MainHomePage = () => {
   useEffect(() => {
     const activeTabQuery = getQueryTab(); 
 
-    setActiveTab(tabs.find((t) => t.query === activeTabQuery)?.key || "All");
+    setActiveTab(tabs.find((t) => t.query === activeTabQuery)?.key || "Feature Event");
 
     setCurrentPage(1);
     setTotalPages(1);

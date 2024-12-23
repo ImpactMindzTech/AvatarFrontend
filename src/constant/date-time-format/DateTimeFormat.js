@@ -1,4 +1,6 @@
 import { format } from "date-fns";
+
+import moment from 'moment-timezone';
 export const formatTimeToHHMM = (isoString) => {
   const date = new Date(isoString);
   const hours = date.getUTCHours().toString().padStart(2, "0");
@@ -128,4 +130,42 @@ export const  convertTo12HourFormats=(isoString)=> {
       hour12: true,
       timeZone: 'UTC'  // Ensures it remains in UTC
   });
+}
+
+
+
+export function calculateRemainingTime(avathonStartTime, timezone) {
+  // Get the current time in the avatar's timezone
+  console.log(avathonStartTime,timzone);
+  const currentTimeInTimezone = moment().tz(timezone);  // Current time in avatar's timezone
+
+  // Convert the Avathon start time to a moment object
+  const avathonStart = moment(avathonStartTime);
+
+  // Calculate the difference in milliseconds
+  const remainingTimeInMillis = avathonStart.diff(currentTimeInTimezone); 
+
+  // If the Avathon has already started, return 0 time
+  if (remainingTimeInMillis <= 0) {
+    return {
+      days: 0,
+      hours: 0,
+      minutes: 0,
+      remainingTimeInMillis: 0
+    };
+  }
+
+  // Convert the remaining time to a readable format (e.g., days, hours, minutes)
+  const duration = moment.duration(remainingTimeInMillis);
+  const days = duration.days();
+  const hours = duration.hours();
+  const minutes = duration.minutes();
+
+  // Return the remaining time as an object
+  return {
+    days,
+    hours,
+    minutes,
+    remainingTimeInMillis
+  };
 }

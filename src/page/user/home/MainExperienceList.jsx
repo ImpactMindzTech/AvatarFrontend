@@ -180,13 +180,15 @@ import { getLocalStorage } from "@/utills/LocalStorageUtills";
 import { bookingSlotsApi } from "@/utills/service/userSideService/userService/UserHomeService";
 import toast from "react-hot-toast";
 import Loader from "@/components/Loader";
-import { convertTo12HourFormats } from "@/constant/date-time-format/DateTimeFormat";
+import { convertTo12HourFormats, formatDate, formatTime } from "@/constant/date-time-format/DateTimeFormat";
+import { getCurrencySymbol } from "@/constant/CurrencySign";
 
 const MainExperienceList = ({ product }) => {
   const [meetlink, setmeetlink] = useState("");
   const [loader, setLoader] = useState(false);
   const userId = getLocalStorage("user")?._id;
   const username = getLocalStorage("user")?.userName;
+  const [hidedetails,setHidedetails] = useState(true);
   // console.log(product,"product")
   // Logic to check if experience is created within the week
   const isNewExperience = () => {
@@ -268,6 +270,8 @@ const MainExperienceList = ({ product }) => {
   return (
     <>
       {loader && <Loader />}
+
+     {product?.type==="Avathons" ?( 
       <div className="max-w-sm overflow-hidden sm:max-w-full h-full relative sm:border-b-2">
         <Link
           to={`/book-experience/${product._id}`}
@@ -296,7 +300,90 @@ const MainExperienceList = ({ product }) => {
             {/* Swiper Slider */}
             <SwiperSlider
               setheight={true}
-              item={product.images || Images.cardRoundedEqual}
+              item={product.avathonsImage || Images.cardRoundedEqual}
+              thumnail={product?.
+                avathonsThumbnail}
+              price={product.AmountsperMinute}
+              hidedetails = {hidedetails}
+              timezone ={product?.avatarTimezone}
+              avathontime = {product?.avathonTime}
+              eplus = {product?.Eighteenplus}
+              product={product}
+            />
+            {/* Show New Label */}
+                
+          </div>
+        </Link>
+        <div className="pb-4 bg-[#001B3A] px-4">
+          <div className=" relative first-letter:capitalize sm:text-base">
+            <Link
+              to={`/user/book-experience/${product._id}`}
+              className="pt-4 pb-2 block font-bold text-white"
+            >
+              {product.avathonTitle
+              }
+            </Link>
+            <p className="text-white">Host:{product?.avatarName}</p>
+
+          </div>
+          
+          <p className="text-grey-800 text-base sm:text-xs font-medium">
+            <Link to={`/user/book-experience/${product._id}`}>
+              {product?.City && product?.City + " ,"} {product.Country}
+            </Link>
+          </p>
+          <p className="text-[#FFFFFF]">
+           Early bid:{getCurrencySymbol()}{product?.EarlybirdPrice}  | Regular{getCurrencySymbol()}{product?.avathonPrice}
+          </p>
+      <div className="flex items-center gap-2 py-1 sm:py-[2px] text-xs text-[#FFFFFF]">
+                    <div className="icon">
+                      <img
+                        src={Images.whitecalender}
+                        alt="calendarIcon"
+                        className="w-3 h-3"
+                      />
+                    </div>
+                    <div className="flex-1">{formatDate(product?.avathonDate)}</div>
+                  </div>
+                  <div className="flex items-center gap-2 py-1 sm:py-[2px] text-xs text-[#FFFFFF]">
+                    <div className="icon">
+                      <img src={Images.whiteclock} alt="clock" className="w-3 h-3" />
+                    </div>
+                    <div className="flex-1">
+                      {formatTime(product?.avathonTime.slice(0, -1))}
+                    </div>
+                  </div>
+        </div>
+      </div>):( <div className="max-w-sm overflow-hidden sm:max-w-full h-full relative sm:border-b-2">
+        <Link
+          to={`/book-experience/${product._id}`}
+          className="pb-3 flex gap-4 items-center"
+        >
+          <img
+            src={product.avatarImage || Images.user2}
+            alt="user"
+            className="w-[50px] h-[50px] sm:w-10 sm:h-10 rounded-full border object-cover border-white shadow-md"
+          />
+          <h2 className="font-bold">{product.avatarName}</h2>
+          {product?.bookinstaltly && (
+            <button
+              onClick={() => golive(product)}
+              className="flex items-center px-4 py-1 ms-auto bg-gradient-to-r from-red-500 to-pink-500 text-[10px] text-white font-semibold rounded-md shadow-md"
+            >
+              <span className="mr-2 text-[10px] animate-pulse">
+                <img src={Images.hotsport} alt="hosport" />
+              </span>
+              Public Live
+            </button>
+          )}
+        </Link>
+        <Link to={`/book-experience/${product?._id}`}>
+          <div className="relative">
+            {/* Swiper Slider */}
+            <SwiperSlider
+              setheight={true}
+              item={product.images
+                || Images.cardRoundedEqual}
               thumnail={product?.thumbnail}
               price={product.AmountsperMinute}
               avrrating={product.avgRating}
@@ -329,7 +416,9 @@ const MainExperienceList = ({ product }) => {
             </p>
           </div>
         </div>
-      </div>
+      </div>)}
+
+     
     </>
   );
 };

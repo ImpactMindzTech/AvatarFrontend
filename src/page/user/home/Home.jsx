@@ -38,8 +38,8 @@ const Home = () => {
 
   // Define tabs
   const tabs = [
-    { key: "Popular Event", query: "popular event" },
-    { key: "Feature Event", query: "feature event" },
+    { key: "PopularEvent", query: "popularevent" },
+    { key: "Feature Event", query: "featureevent" },
     { key: "All", query: "all" },
     { key: "Popular", query: "popular" },
     { key: "Recommended", query: "recommended" },
