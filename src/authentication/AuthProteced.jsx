@@ -4,7 +4,7 @@ import { Outlet, Navigate } from 'react-router-dom';
 const AuthProtected = () => {
   const token = getLocalStorage('token');
   const currentState = getLocalStorage('user')?.Activeprofile;
-
+// tis
   if (token) {
     switch (currentState) {
       case 'user':
