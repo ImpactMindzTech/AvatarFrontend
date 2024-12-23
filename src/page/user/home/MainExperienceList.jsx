@@ -274,7 +274,7 @@ const MainExperienceList = ({ product }) => {
      {product?.type==="Avathons" ?( 
       <div className="max-w-sm overflow-hidden sm:max-w-full h-full relative sm:border-b-2">
         <Link
-          to={`/book-experience/${product._id}`}
+          to={`/book-avathon/${product._id}`}
           className="pb-3 flex gap-4 items-center"
         >
           <img
@@ -295,7 +295,7 @@ const MainExperienceList = ({ product }) => {
             </button>
           )}
         </Link>
-        <Link to={`/book-experience/${product?._id}`}>
+        <Link to={`/book-avathon/${product?._id}`}>
           <div className="relative">
             {/* Swiper Slider */}
             <SwiperSlider
@@ -317,7 +317,7 @@ const MainExperienceList = ({ product }) => {
         <div className="pb-4 bg-[#001B3A] px-4">
           <div className=" relative first-letter:capitalize sm:text-base">
             <Link
-              to={`/user/book-experience/${product._id}`}
+              to={`/user/book-avathon/${product._id}`}
               className="pt-4 pb-2 block font-bold text-white"
             >
               {product.avathonTitle
@@ -328,7 +328,7 @@ const MainExperienceList = ({ product }) => {
           </div>
           
           <p className="text-grey-800 text-base sm:text-xs font-medium">
-            <Link to={`/user/book-experience/${product._id}`}>
+            <Link to={`/user/book-avathon/${product._id}`}>
               {product?.City && product?.City + " ,"} {product.Country}
             </Link>
           </p>

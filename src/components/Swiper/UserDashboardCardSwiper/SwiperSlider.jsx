@@ -21,7 +21,9 @@ function SwiperSlider({
 ,
   hideExtraDetails,
 }) {
+  
   const slides = [thumnail,...item];
+
   const [countdown, setCountdown] = useState("");
   const getRemainingTime = () => {
     const exacttime = getDateTimeForTimezone(timezone); // Get the current time for the avatar's timezone

@@ -34,6 +34,18 @@ export const userExperienceListApi = async (id) => {
     console.log(error);
   }
 };
+export const useravathonApi = async (id) => {
+  try {
+    const res = await axiosInstance.get("/user/getavathondetail/" + id);
+
+    return res.data;
+  } catch (error) {
+    // toast.error(error?.response?.data?.message);
+    console.log(error);
+  }
+};
+
+
 export const mainExperienceListApi = async (id) => {
   try {
     const res = await axiosInstance.get("/user/getdetailExps/" + id);
