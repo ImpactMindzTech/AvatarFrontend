@@ -25,6 +25,8 @@ const MainLayout = ({ children }) => {
   const [country, setCountry] = useState([]);
   const suggestions = country;
   const [loader, setLoader] = useState(false);
+  const [showTranslate, setShowTranslate] = useState(true);
+
   const getAllcountry = async (country) => {
     try {
       const response = await getAllcountryApi({ country: country });
@@ -154,6 +156,44 @@ const MainLayout = ({ children }) => {
     setDropdownOpen(false);
   };
 
+ // Check if the translate component should be shown
+//  useEffect(() => {
+//   localStorage.setItem("googleTranslateInitialized", "true");
+//   const translateState = getLocalStorage("googleTranslateInitialized");
+//   if (translateState === "true") {
+//     setShowTranslate(true);
+//   } else {
+//     setShowTranslate(false);
+//   }
+// }, []);
+
+// useEffect(()=>{
+//   const translateState=getLocalStorage("googleTranslateInitialized")
+//   console.log(translateState,"translateState");
+//   setShowTranslate(translateState)
+// },[])
+
+
+// useEffect(() => {
+//   // Trigger to show the Translate component
+//   // You can make this more dynamic based on your use case
+//   setShowTranslate(true);
+// }, [pathname]);
+
+// useEffect(() => {
+//   if (pathname !== "/") {  // If not on the main route, hide Translate component
+//     setShowTranslate(false);
+//   }
+// }, [pathname]);
+
+useEffect(() => {
+  // Retrieve the persisted translate visibility state
+  const storedState = getLocalStorage("showTranslate");
+  if (storedState !== null) {
+    setShowTranslate(JSON.parse(storedState));
+  }
+}, []);
+
   return (
     <div className="container px-4 sm:px-0 lg:max-w-full">
  <header className="flex justify-between px-4 items-center my-6">
@@ -273,9 +313,9 @@ const MainLayout = ({ children }) => {
             </div>
           </div>
 
-          {/* <div>
+          <div className="flex justify-center items-center border-2 border-black">
             <TranslateComponent/>
-          </div> */}
+          </div>
 
      {/* TranslateComponent styled button */}
      {/* <button
@@ -285,11 +325,14 @@ const MainLayout = ({ children }) => {
         <span className="text-grey-900 text-xs">Translate</span>
         <TranslateComponent />
       </button> */}
-      {/* <TranslateComponent/> */}
+      {/* {showTranslate && <TranslateComponent />} */}
+      {/* {pathname === "/" && showTranslate && <TranslateComponent />} */}
+      {/* <TranslateComponent /> */}
          
         </div>
       )}
       {children}
+
     </div>
   );
 };
