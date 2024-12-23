@@ -43,6 +43,8 @@ const MainHomePage = () => {
   
   // Define tabs
   const tabs = [
+    { key: "Popular Event", query: "popular event" },
+    { key: "Feature Event", query: "feature event" },
     { key: "All", query: "all" },
     { key: "Popular", query: "popular" },
     { key: "Recommended", query: "recommended" },
@@ -107,6 +109,7 @@ const MainHomePage = () => {
 
   useEffect(() => {
     const activeTabQuery = getQueryTab(); 
+
     setActiveTab(tabs.find((t) => t.query === activeTabQuery)?.key || "All");
 
     setCurrentPage(1);
