@@ -141,9 +141,13 @@ import popularIconWhite from "../assets/icons/popular-icon-white.svg";
 import creditCardLight from "../assets/icons/credit-card-light.svg";
 import instantLiveLight from "../assets/icons/instant-live-light.svg";
 import patternDots from "../assets/images/pattern-dots.svg";
+import whitecalender from "../assets/images/calendar.svg";
+import whiteclock from "../assets/images/clocks.svg"
 
 
 export default {
+  whiteclock,
+  whitecalender,
   patternDots,
   instantLiveLight,
   creditCardLight,

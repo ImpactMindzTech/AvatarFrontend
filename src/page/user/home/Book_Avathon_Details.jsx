@@ -13,13 +13,14 @@ import {
 import Images from "@/constant/Images";
 import { setProductList } from "@/store/slice/experinceS/ExperinceSlice";
 import { setLocalStorage } from "@/utills/LocalStorageUtills";
-import { userExperienceListApi } from "@/utills/service/userSideService/userService/UserHomeService";
+import { useravathonApi, userExperienceListApi } from "@/utills/service/userSideService/userService/UserHomeService";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 
 function Book_Avathon_Details() {
   const params = useParams();
+  console.log(params);
 
   const [loading, setLoading] = useState(false);
   const [latLon, setLatLon] = useState(null);
@@ -31,7 +32,9 @@ function Book_Avathon_Details() {
   const userExperience = async () => {
     setLoading(true);
     try {
-      const responce = await userExperienceListApi(params?.id);
+      const responce = await useravathonApi(params?.id);
+      console.log(responce);
+
       
       if (responce?.isSuccess) {
         // setSelectPosition(responce?.data?.location);

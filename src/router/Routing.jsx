@@ -73,6 +73,9 @@ import MainBookExperienceDetails from "@/page/user/home/MainBookExperienceDetail
 import MainSeeAllReviews from "@/page/user/MainSeeAllReviews";
 import RoomCreate from "@/page/Room";
 import RoomJoin from "@/page/Room";
+import AvathonCreate from "../page/Avathons";
+import AvathonJoin  from "../page/Avathons"
+
 import Payment_Success_Join_Room from "@/page/user/Payment_Success_Join_Room";
 import NewPage from "@/page/user/NewPage";
 // import Room from "@/page/Room";
@@ -165,6 +168,7 @@ const router = createBrowserRouter([
     element: <RoomJoin />,
     // element: <Root />,
   },
+
   {
     path: "/privacy",
     element: <Privacy />,
@@ -316,6 +320,11 @@ const router = createBrowserRouter([
       {
         path: "room_join/:id",
         element: <RoomJoin />,
+        // element: <Root />,
+      },
+      {
+        path: "avathon_join/:id",
+        element: <AvathonJoin />,
         // element: <Root />,
       },
       {
@@ -636,6 +645,11 @@ const router = createBrowserRouter([
       {
         path: "room_create/:id",
         element: <RoomCreate />,
+        // element: <Root />,
+      },
+      {
+        path: "avathon_create/:id",
+        element: <AvathonCreate  />,
         // element: <Root />,
       },
       {
