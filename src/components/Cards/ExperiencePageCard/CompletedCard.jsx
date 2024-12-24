@@ -16,7 +16,7 @@ const CompletedCard = ({ item }) => {
 const getratings = async()=>{
    try{
    let response = await getrating(item?.expId);
-   console.log(response);
+  //  console.log(response);
    if(response.data){
     Ratingdone(true);
    }

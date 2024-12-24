@@ -14,8 +14,8 @@ import moment from 'moment-timezone';
 import { useLocation } from "react-router-dom";
 
 // Replace with your ngrok URL or server URL
-//const SOCKET_SERVER_URL="http://localhost:3000/"
-const SOCKET_SERVER_URL = 'https://avatarbackend-4v41.onrender.com/';
+const SOCKET_SERVER_URL="http://localhost:3000/"
+//const SOCKET_SERVER_URL = 'https://avatarbackend-4v41.onrender.com/';
 const socket = io(SOCKET_SERVER_URL,{
   withCredentials: true,
   reconnectionAttempts: 5,

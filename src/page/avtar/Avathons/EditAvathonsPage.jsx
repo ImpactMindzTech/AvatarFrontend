@@ -58,7 +58,7 @@ function EditAvathonsPage() {
     setValue,
   } = useForm({ resolver: yupResolver(editAvathonsValidation) });
   const state = location?.state;
-console.log(state);
+// console.log(state);
 
   const handleRemoveMainImage = () => {
     setImageURL(null);
@@ -140,7 +140,7 @@ console.log(state);
         setOtherSelectedFiles(uniqueImages);
       }
     let time = formatTimeToHHMM(state?.avathonTime);
-    console.log(time);
+    // console.log(time);
       setValue("AvathonName", state?.
         avathonTitle);
       setValue("RegularPrice", state?.RegularPrice);

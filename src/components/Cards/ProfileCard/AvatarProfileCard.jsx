@@ -3,7 +3,7 @@ import Images from "@/constant/Images";
 
 
 export default function AvatarProfileCard({ avatardetail }) {
-console.log(avatardetail);
+// console.log(avatardetail);
   const calculateAverageRating = (reviews) => {
 
     if (reviews?.length > 0) {

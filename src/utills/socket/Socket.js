@@ -9,8 +9,8 @@ let userId = getLocalStorage("user")?._id;
 
 
 
-const socket = io(`https://avatarbackend-4v41.onrender.com/`, {
-//const socket = io(`http://localhost:3000/`, {
+//const socket = io(`https://avatarbackend-4v41.onrender.com/`, {
+const socket = io(`http://localhost:3000/`, {
   withCredentials: true,
   query: {user:userId},
   reconnectionAttempts: 5, 

@@ -37,7 +37,7 @@ const [selectedAccount, setSelectedAccount] = useState("")
   const handleAccountChange = (e) => {
     setSelectedAccount(e.target.value);
   };
-console.log(selectedAccount);
+// console.log(selectedAccount);
 
   const fetchstripe = async () => {
     try {

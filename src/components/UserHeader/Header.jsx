@@ -63,7 +63,7 @@ function Header() {
   
     mainhead();
   }, []);
-  console.log(location.pathname)
+  // console.log(location.pathname)
   const mainhead = async () => {
     try {
       const res = await googlesignupandsigninApis();

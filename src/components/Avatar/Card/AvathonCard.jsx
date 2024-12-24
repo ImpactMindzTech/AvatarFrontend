@@ -18,7 +18,7 @@ import toast from "react-hot-toast";
 
 
 const AvathonCard = ({ item, role,experienceStatus,setExperienceStatus }) => {
-console.log(item);
+// console.log(item);
       let navigate = useNavigate();
       const [loader, setLoader] = useState(false);
 const handleEditAvathons = (item) => {

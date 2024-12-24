@@ -63,7 +63,7 @@ const RequestedCard = ({ item, getRequests, role }) => {
 
         }
       } catch (error) {
-        console.log("sasas", error);
+        console.log("error", error);
       } finally {
         setLoader(false);
       }

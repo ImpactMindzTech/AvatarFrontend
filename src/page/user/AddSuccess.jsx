@@ -18,7 +18,7 @@ function  AddSuccess() {
   const getalldata = async (meetId) => {
     try {
       let res = await getmeetdata(meetId);
-      console.log(res);
+      // console.log(res);
       setdata(res.data.eventId);
      
        

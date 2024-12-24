@@ -42,7 +42,7 @@ const DateReservedModal = ({ bookingDate, show, onClose }) => {
 
         setRemainingSlots(filteredSlots);
       }
-      console.log(response, "bookingSlotsApi");
+      // console.log(response, "bookingSlotsApi");
     } catch (error) {
       console.log(error);
     } finally {

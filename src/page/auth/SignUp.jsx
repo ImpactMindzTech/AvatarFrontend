@@ -104,7 +104,7 @@ const SignUp = () => {
         uid: user.uid,
         isgoogleSignup: true,
       };
-      console.log(body);
+      // console.log(body);
   
       if (user) {
         const response = await googlesignupandsigninApi(body);

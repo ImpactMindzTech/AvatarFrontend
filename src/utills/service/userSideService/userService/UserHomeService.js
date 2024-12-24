@@ -6,7 +6,7 @@ export const userExperienceApi = async (payload) => {
   const { tab, country="United States", search, items_per_page, page } = payload;
   try {
     const res = await axiosInstance.get(`/user/getExperience?filters=${tab}&country=${country}&search=${search}&items_per_page=${items_per_page}&pg=${page}`);
-    console.log(res.data,"ress")
+    // console.log(res.data,"ress")
     return res.data;
   } catch (error) {
     // toast.error(error?.response?.data?.message);

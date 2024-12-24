@@ -9,7 +9,7 @@ import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 
 function MyAvathonsCard({ item, onDelete }) {
-    console.log(item,"item")
+    // console.log(item,"item")
   const [loader, setLoader] = useState(false);
 
   const navigate = useNavigate();
@@ -31,7 +31,7 @@ function MyAvathonsCard({ item, onDelete }) {
       try {
         const response = await deleteAvathonsApi(itemToDelete?._id);
         if (response?.isSuccess) {
-            console.log(response,"Resss")
+            // console.log(response,"Resss")
           toast.success("Avathons success deleted");
           onDelete();
         }
