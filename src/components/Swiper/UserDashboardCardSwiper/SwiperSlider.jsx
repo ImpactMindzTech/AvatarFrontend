@@ -20,11 +20,14 @@ function SwiperSlider({
   avrrating  ,hidedetails
 ,
   hideExtraDetails,
+  avathonTrue,
+  availableSpots
 }) {
-  
+ 
   const slides = [thumnail,...item];
 
   const [countdown, setCountdown] = useState("");
+
   const getRemainingTime = () => {
     const exacttime = getDateTimeForTimezone(timezone); // Get the current time for the avatar's timezone
     const mytime = avathontime; // This is the avathon start time
@@ -34,7 +37,12 @@ function SwiperSlider({
     const exactMoment = moment.tz(exacttime, timezone); // Convert exacttime to a moment object in the specified timezone
   
     // Calculate the difference
-    const timeDifference = avathonMoment.diff(exactMoment); // The difference in milliseconds
+    let timeDifference = avathonMoment.diff(exactMoment); // The difference in milliseconds
+  
+    if (timeDifference < 0) {
+      // If the time difference is negative, return "Event started"
+      return "Event started";
+    }
   
     // Convert the difference to hours, minutes, and seconds
     const duration = moment.duration(timeDifference);
@@ -42,41 +50,41 @@ function SwiperSlider({
     const minutes = duration.minutes();
     const seconds = duration.seconds();
   
-    // Format the result as a string, e.g., "hh:mm:ss"
-    // const formattedDifference = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    // Format the result as a string
     const formattedDifference = `${hours}hrs : ${minutes}min : ${seconds}sec`;
     return formattedDifference;
   };
-
+  
   useEffect(() => {
     const interval = setInterval(() => {
       const newCountdown = getRemainingTime();
       setCountdown(newCountdown);
-      
+  
       // If the event has started, stop the countdown
-      if (newCountdown === "00:00:00") {
+      if (newCountdown === "Event started") {
         clearInterval(interval);
       }
     }, 1000);
-
+  
     // Clean up the interval when the component unmounts
     return () => clearInterval(interval);
   }, [avathontime, timezone]);
+  
 const averageRating =  avrrating;
 const joinedmember = product?.joinedMembers;
-const availablemember = product?.Availablespots
+const availablemember = product?.Availablespots ;
 const totalremainspots = availablemember-joinedmember;
 
 
   return (
-    <Swiper  pagination={{ clickable: true }} modules={[Pagination]} className="mySwiper  z-10 " navigation>
+    <Swiper  pagination={{ clickable: true}}  modules={[Pagination]} className={`${avathonTrue ?'avathonCustomdots':'mySwiper z-10'} `} navigation>
       {slides?.map((src, index) => {
    
         return (
           <SwiperSlide key={index}>
   {src?.endsWith('.mp4') || src?.endsWith('.webm') ? (
     <video
-      className="aspect-video object-cover m-auto w-full rounded-lg"
+      className={`aspect-video object-cover m-auto w-full ${avathonTrue?'rounded-t-lg':'rounded-lg'}`}
       src={src}
  
       loading="lazy"
@@ -89,7 +97,7 @@ const totalremainspots = availablemember-joinedmember;
   ) : (
     <img
       loading="lazy"
-      className="aspect-video object-cover m-auto w-full rounded-lg"
+      className={`aspect-video object-cover m-auto w-full ${avathonTrue?'rounded-t-lg':'rounded-lg'}`}
       src={src || Images.imagePlaceholder}
       alt="slider_img"
     />
@@ -150,7 +158,7 @@ const totalremainspots = availablemember-joinedmember;
     </div>
   <div>
     {eplus &&(
-    <div className="bg-[white] px-4  pt-[4px] pb-[6px] rounded-full leading-none text-sm font-bold inline-flex items-center gap-2 sm:text-[12px] z-20 absolute bottom-1 right-3">18+</div>
+    <div className="bg-[white] px-4  pt-[4px] pb-[6px] rounded-full leading-none text-sm font-bold inline-flex items-center gap-2 sm:text-[12px] z-20 absolute bottom-1 left-3">18+</div>
 )}
   </div>
   </>
@@ -189,3 +197,4 @@ const totalremainspots = availablemember-joinedmember;
 }
 
 export default SwiperSlider;
+

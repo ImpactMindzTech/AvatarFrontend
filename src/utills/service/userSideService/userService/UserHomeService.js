@@ -208,6 +208,29 @@ export const checkout = async (payload) => {
     toast.error(error?.response?.data.message);
   }
 };
+export const avathoncheckout = async (payload) => {
+  try {
+    const res = await axiosInstance.post("user/avathoncheckout", payload);
+    return res.data;
+  } catch (error) {
+    toast.error(error?.response?.data.message);
+  }
+};
+export const avathonpaypalcheckout = async (payload) => {
+  try {
+    const res = await axiosInstance.post("user/avathonpaypal", payload);
+    return res.data;
+  } catch (error) {
+    toast.error(error?.response?.data.message);
+  }
+};
+
+
+
+
+
+
+
 export const offercheckout = async (payload) => {
   try {
     const res = await axiosInstance.post("user/offercheckout", payload);
@@ -344,6 +367,15 @@ export const reportbug = async(payload)=>{
 
 
   return res.data;
+  }catch(err){
+    console.log(err);
+  }
+}
+export const Joinavathon = async(id)=>{
+  try{
+  const res = await axiosInstance.post("/user/bookavathon/"+id);
+  return res.data;
+
   }catch(err){
     console.log(err);
   }

@@ -91,9 +91,9 @@ import CheckOut from "@/page/user/checkout/CheckOut";
 import CreateNewAvathonsPage from "@/page/avtar/Avathons/CreateNewAvathonsPage";
 import CreateAvathonsWithImagePage from "@/page/avtar/Avathons/CreateAvathonsWithImage";
 import EditAvathonsPage from "@/page/avtar/Avathons/EditAvathonsPage";
-import MainAvathonDetails from "@/page/user/home/MainBookAvathonDetails";
 import MainBookAvathonDetails from "@/page/user/home/MainBookAvathonDetails";
 import Book_Avathon_Details from "@/page/user/home/Book_Avathon_Details";
+import AvathonConfirmPay from "@/page/user/home/AvathonConfirmPay";
 
 const router = createBrowserRouter([
   {
@@ -617,6 +617,22 @@ const router = createBrowserRouter([
         element: (
           <DashboardLayout>
             <Book_Avathon_Details />
+          </DashboardLayout>
+        ),
+      },
+      // {
+      //   path: "avathon-confirm-and-pay/:id",
+      //   element: (
+      //     <DashboardLayout>
+      //       <AvathonConfirmPay />
+      //     </DashboardLayout>
+      //   ),
+      // },
+      {
+        path: "avathon-confirm-and-pay",
+        element: (
+          <DashboardLayout>
+            <AvathonConfirmPay />
           </DashboardLayout>
         ),
       },

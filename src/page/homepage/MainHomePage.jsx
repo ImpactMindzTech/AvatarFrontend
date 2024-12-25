@@ -1,3 +1,4 @@
+// before login
 import { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setProducts } from "@/store/slice/experinceS/ExperinceSlice";
@@ -72,6 +73,7 @@ const MainHomePage = () => {
         page: page,
         items_per_page: itemsPerPage,
       };
+ 
       try {
         setLoading(true)
         const activeUserId = getLocalStorage("user")?._id;

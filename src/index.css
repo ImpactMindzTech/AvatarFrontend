@@ -270,7 +270,9 @@ button.MuiButtonBase-root.MuiTab-root.MuiTab-textColorPrimary.css-1h9z7r5-MuiBut
   text-align: left;
   padding-left: 10px;
 }
-
+.avathonCustomdots{
+  text-align: center;
+}
 
 .swiper-pagination-bullet-active {
   background: #ffffff !important;

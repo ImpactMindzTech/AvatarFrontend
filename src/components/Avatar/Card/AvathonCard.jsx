@@ -1,10 +1,11 @@
 import Images from "@/constant/Images";
-import moment from "moment";
-import "moment-timezone"; // Import moment-timezone
+
+import moment from  "moment-timezone"; // Import moment-timezone
 import {
   formatDate,
   formatTime,
   formatTimestamp,
+  getDateTimeForTimezone,
 } from "@/constant/date-time-format/DateTimeFormat";
 import { createmeeting } from "@/utills/service/avtarService/AddExperienceService";
 import socket from "@/utills/socket/Socket";
@@ -21,6 +22,8 @@ const AvathonCard = ({ item, role,experienceStatus,setExperienceStatus }) => {
 // console.log(item);
       let navigate = useNavigate();
       const [loader, setLoader] = useState(false);
+      const[visible,setvisible]  =useState(false);
+      
 const handleEditAvathons = (item) => {
         navigate("/avatar/edit-avathons/" + item?._id, { state: item });
       };
@@ -45,7 +48,56 @@ const handleEditAvathons = (item) => {
           }
         }
       };
+ const [countdown, setCountdown] = useState("");
 
+ const timezone = item?.availability?.timezone; // Get the timezone for the avatar
+ const mytime = item?.avathonTime; // This is the avathon start time
+ 
+ const getRemainingTime = () => {
+   const exacttime = getDateTimeForTimezone(timezone); // Get the current time for the avatar's timezone
+ 
+   // Parse both times using moment
+   const avathonMoment = moment.tz(mytime, timezone); // Convert avathontime to a moment object in the same timezone
+   const exactMoment = moment.tz(exacttime, timezone); // Convert exacttime to a moment object in the specified timezone
+ 
+   // Calculate the difference
+   let timeDifference = avathonMoment.diff(exactMoment); // The difference in milliseconds
+ 
+   if (timeDifference < 0) {
+    setvisible(true);
+     return "Start Event";
+   }
+ 
+   // Convert the difference to hours, minutes, and seconds
+   const duration = moment.duration(timeDifference);
+   const hours = Math.floor(duration.asHours());
+   const minutes = duration.minutes();
+   const seconds = duration.seconds();
+ 
+   // Format the result as a string, e.g., "hh:mm:ss"
+   const formattedDifference = `${hours}hrs : ${minutes}min : ${seconds}sec`;
+   return formattedDifference;
+ };
+ 
+ useEffect(() => {
+   const interval = setInterval(() => {
+     const newCountdown = getRemainingTime();
+     setCountdown(newCountdown);
+ 
+     // Stop the countdown if the event has started
+     if (newCountdown === "Event started") {
+       setvisible(true);
+       clearInterval(interval);
+     }
+   }, 1000);
+ 
+   // Clean up the interval when the component unmounts
+   return () => clearInterval(interval);
+ }, [mytime, timezone]);
+ const createroom = ()=>{
+  const generatedRoomId =  Math.random().toString(36).substr(2, 2);
+  navigate(`/avatar/avathon_create/${generatedRoomId}`);
+ }
   return (
     <div className="p-4 sm:p-0 sm:mt-2">
       <div className="BoxShadowLessRounded  sm:pb-2">
@@ -99,6 +151,15 @@ const handleEditAvathons = (item) => {
                 {formatTime(item?.avathonTime.slice(0, -1))}
               </div>
             </div>
+          </div>
+          <div className="w-full  text-center mt-3">
+          <div className="bg-gray-800 w-[100%]  text-white font-medium px-4 py-2 rounded hover:bg-gray-700" >
+    <button disabled={!visible}  onClick={createroom}>
+
+    {countdown}
+
+    </button>
+  </div>
           </div>
           <div className="flex w-full gap-3 mt-3">
  

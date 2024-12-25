@@ -13,6 +13,7 @@ import {
 import { completeoffer } from "@/utills/service/userSideService/userService/UserHomeService";
 
 export default function OffersCard({ state, item }) {
+
   const [rid, setid] = useState(null);
   const [remainingTime, setRemainingTime] = useState(null);
   const [isCountdownOver, setIsCountdownOver] = useState(false);
@@ -105,7 +106,7 @@ export default function OffersCard({ state, item }) {
 
         <div className="flex justify-between items-center">
           <div className=" md:text-xs">
-            <IconText icon={Images.multiUser} text={item?.userName} />
+            <IconText icon={Images.user4} text={item?.userName} />
             <IconText  icon={Images.clock} text={`${item?.Minutes} Minutes`} />
             <IconText
               icon={Images.location}

@@ -14,6 +14,7 @@ import Images from "@/constant/Images";
 import RecordItModal from "@/components/Modal/RecordItModal";
 import OffersCard from "@/components/Avatar/Card/OffersCard";
 import UseroffersCard from "@/components/Avatar/Card/UserOfferCard";
+import AvathonJoinCard from "@/components/Avatar/Card/AvathonJoinCard";
 
 function Experience() {
   const dispatch = useDispatch();
@@ -25,7 +26,7 @@ function Experience() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const tabs = ["Requested", "Booked", "Completed", "Cancelled", "Offers"];
+  const tabs = ["Avathons","Requested", "Booked", "Completed", "Cancelled", "Offers"];
   const [activeTab, setActiveTab] = useState("");
   const [showCameraNotice, setShowCameraNotice] = useState(true);
   const [loader, setLoader] = useState(false);
@@ -47,7 +48,7 @@ function Experience() {
     const tab = searchParams.get("tab");
     const capitalizedTab = tab
       ? tab.charAt(0).toUpperCase() + tab.slice(1)
-      : "Requested";
+      : "Avathons";
 
     if (tabs.includes(capitalizedTab)) {
       setActiveTab(capitalizedTab);
@@ -68,7 +69,11 @@ function Experience() {
 
       return <UseroffersCard key={item._id} item={item} />;
     }
-  
+    if (item?.avathonId?.type === "Avathons") {
+    
+
+      return <AvathonJoinCard key={item._id} item={item} />;
+    }
     switch (item.status) {
       case "Requested":
         return <RequestedCard key={item.reqId} item={item} />;
@@ -154,6 +159,12 @@ function Experience() {
               <p className="bg-[#fff0f0] py-[10px] px-[15px] text-[#ff5454] mt-5 rounded-sm">
                 Here you'll find the tours you've created on the offer page,
                 along with their current status.
+              </p>
+            )}
+             {activeTab.toLocaleLowerCase() === "avathons" && (
+              <p className="bg-[#fff0f0] py-[10px] px-[15px] text-[#ff5454] mt-5 rounded-sm">
+                Here you'll find avathons that have moved from requested to
+                confirmed and officially booked.
               </p>
             )}
             <div className="my-5 grid grid-cols-3 2xl:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-4">

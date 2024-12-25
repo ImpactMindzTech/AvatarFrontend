@@ -1,3 +1,4 @@
+// After login
 import { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setProducts } from "@/store/slice/experinceS/ExperinceSlice";
@@ -26,7 +27,7 @@ const Home = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [instantLiveModalState, setInstantLiveModalState] = useState(false);
   const [multipleAddressModalState, setMultipleAddressModalState] = useState(false);
-  const [activeTab, setActiveTab] = useState("All");
+  const [activeTab, setActiveTab] = useState("Feature Event");
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
   const [meetlink, setmeetlink] = useState("");
@@ -38,7 +39,6 @@ const Home = () => {
 
   // Define tabs
   const tabs = [
-    { key: "PopularEvent", query: "popularevent" },
     { key: "Feature Event", query: "featureevent" },
     { key: "All", query: "all" },
     { key: "Popular", query: "popular" },
@@ -52,14 +52,14 @@ const Home = () => {
   // Extract tab from URL query parameters
   const getQueryTab = () => {
     const searchParams = new URLSearchParams(location.search);
-    return searchParams.get("tab")?.toLowerCase() || "all";
+    return searchParams.get("tab")?.toLowerCase() || "featureevent";
   };
 
   const fetchUserExperience = useCallback(
     async (tab, page) => {
       const country = getLocalStorage("selectedCountry") || getLocalStorage("user")?.Country || "United States";
       const payload = {
-        tab: tab,
+        tab: tab.replace(/\s+/g, ''),
         country: country,
         search: search,
         page: page,
@@ -69,10 +69,12 @@ const Home = () => {
         setLoading(true);
 
         const activeUserId = getLocalStorage("user")?._id;
+        
         const response = await userExperienceApi(payload);
-
+      
         if (response?.isSuccess) {
           let filterData = response.data.filter((item) => item.avatarId !== activeUserId);
+         
           let onlyAvailabilityData = filterData.filter((item) => item.availability !== null);
 
           
@@ -98,7 +100,7 @@ const Home = () => {
 
   useEffect(() => {
     const activeTabQuery = getQueryTab(); 
-    setActiveTab(tabs.find((t) => t.query === activeTabQuery)?.key || "All"); 
+    setActiveTab(tabs.find((t) => t.query === activeTabQuery)?.key || "Feature Event"); 
   
     setCurrentPage(1);
     setTotalPages(1);

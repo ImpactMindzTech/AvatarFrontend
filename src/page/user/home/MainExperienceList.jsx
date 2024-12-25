@@ -170,10 +170,11 @@
 
 // export default MainExperienceList;
 
+// Berfore login
 
 import React, { useEffect, useState } from "react";
 import SwiperSlider from "@/components/Swiper/UserDashboardCardSwiper/SwiperSlider";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Images from "@/constant/Images";
 import socket from "@/utills/socket/Socket";
 import { getLocalStorage } from "@/utills/LocalStorageUtills";
@@ -189,6 +190,7 @@ const MainExperienceList = ({ product }) => {
   const userId = getLocalStorage("user")?._id;
   const username = getLocalStorage("user")?.userName;
   const [hidedetails,setHidedetails] = useState(true);
+  const navigate=useNavigate()
   // console.log(product,"product")
   // Logic to check if experience is created within the week
   const isNewExperience = () => {
@@ -271,18 +273,14 @@ const MainExperienceList = ({ product }) => {
     <>
       {loader && <Loader />}
 
-     {product?.type==="Avathons" ?( 
-      <div className="max-w-sm overflow-hidden sm:max-w-full h-full relative sm:border-b-2">
+     {product?.type==="Avathons" ?
+     ( 
+      <div className="max-w-sm overflow-hidden sm:max-w-full h-full relative sm:border-b-2 ">
         <Link
           to={`/book-avathon/${product._id}`}
           className="pb-3 flex gap-4 items-center"
         >
-          <img
-            src={product.avatarImage || Images.user2}
-            alt="user"
-            className="w-[50px] h-[50px] sm:w-10 sm:h-10 rounded-full border object-cover border-white shadow-md"
-          />
-          <h2 className="font-bold">{product.avatarName}</h2>
+
           {product?.bookinstaltly && (
             <button
               onClick={() => golive(product)}
@@ -296,7 +294,7 @@ const MainExperienceList = ({ product }) => {
           )}
         </Link>
         <Link to={`/book-avathon/${product?._id}`}>
-          <div className="relative">
+          <div className="relative rounded-t-lg">
             {/* Swiper Slider */}
             <SwiperSlider
               setheight={true}
@@ -309,22 +307,31 @@ const MainExperienceList = ({ product }) => {
               avathontime = {product?.avathonTime}
               eplus = {product?.Eighteenplus}
               product={product}
+              avathonTrue={true}
+
             />
             {/* Show New Label */}
                 
           </div>
         </Link>
-        <div className="pb-4 bg-[#001B3A] px-4">
+        <div className="pb-4 bg-[#001B3A] px-4 rounded-b-lg  relative">
+        <img
+            src={product.avatarImage || Images.user2}
+            alt="user"
+            className="w-[50px] h-[50px] sm:w-10 sm:h-10 rounded-full border object-cover border-white shadow-md absolute right-3 z-20 top-[-30px]"
+          />
           <div className=" relative first-letter:capitalize sm:text-base">
             <Link
               to={`/user/book-avathon/${product._id}`}
               className="pt-4 pb-2 block font-bold text-white"
             >
-              {product.avathonTitle
-              }
-            </Link>
-            <p className="text-white">Host:{product?.avatarName}</p>
+              <div className="flex items-center">              
+                {product.avathonTitle} 
+              <span className="text-white bg-[#522F44] text-[#E95658] font-normal rounded-3xl pl-2 pr-2 p-0 ml-2">Avathon</span></div>
 
+            </Link>
+            <p className="text-white">Host: {product?.avatarName}</p>
+            
           </div>
           
           <p className="text-grey-800 text-base sm:text-xs font-medium">
@@ -333,28 +340,35 @@ const MainExperienceList = ({ product }) => {
             </Link>
           </p>
           <p className="text-[#FFFFFF]">
-           Early bid:{getCurrencySymbol()}{product?.EarlybirdPrice}  | Regular{getCurrencySymbol()}{product?.avathonPrice}
+           Early bid: {getCurrencySymbol()}{product?.EarlybirdPrice}  | Regular {getCurrencySymbol()}{product?.avathonPrice}
           </p>
-      <div className="flex items-center gap-2 py-1 sm:py-[2px] text-xs text-[#FFFFFF]">
+          {/* <img src={Images.info} className=""/> */}
+      <div className="flex items-center gap-2 py-1 sm:py-[2px] text-xs text-[#FFFFFF] ">
                     <div className="icon">
                       <img
                         src={Images.whitecalender}
                         alt="calendarIcon"
-                        className="w-3 h-3"
+                        className="w-5 h-5"
                       />
                     </div>
-                    <div className="flex-1">{formatDate(product?.avathonDate)}</div>
+                    <div className="flex-1 text-[16px]">{formatDate(product?.avathonDate)}</div>
                   </div>
                   <div className="flex items-center gap-2 py-1 sm:py-[2px] text-xs text-[#FFFFFF]">
                     <div className="icon">
-                      <img src={Images.whiteclock} alt="clock" className="w-3 h-3" />
+                      <img src={Images.whiteclock} alt="clock" className="w-5 h-5" />
                     </div>
-                    <div className="flex-1">
+                    <div className="flex-1 text-[16px]">
                       {formatTime(product?.avathonTime.slice(0, -1))}
                     </div>
                   </div>
+                  
+                    <button className="bg-white text-black p-5 pt-2 pb-2 rounded-md font-bold text-[16px] absolute right-3 bottom-2" onClick={() => navigate(`/user/book-avathon/${product._id}`)}
+                    >Join Now
+                     </button>
+                  
         </div>
-      </div>):( <div className="max-w-sm overflow-hidden sm:max-w-full h-full relative sm:border-b-2">
+      </div>
+    ):( <div className="max-w-sm overflow-hidden sm:max-w-full h-full relative sm:border-b-2 ">
         <Link
           to={`/book-experience/${product._id}`}
           className="pb-3 flex gap-4 items-center"
