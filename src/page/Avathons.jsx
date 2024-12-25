@@ -4,18 +4,18 @@ import { useParams } from "react-router-dom";
 import { getLocalStorage, setLocalStorage } from "@/utills/LocalStorageUtills";
 import Images from "@/constant/Images";
 import { Toaster, toast } from "react-hot-toast";
-import { setRoomData } from "@/store/slice/videoSlice";
+
 import { useDispatch } from "react-redux";
-import AddMoreTime from "@/components/Modal/AddMoreTimeModal";
+
 import { getmeetdata } from "@/utills/service/userSideService/userService/UserHomeService";
 import { useNavigate } from "react-router-dom";
-import { getAvailableApi } from "@/utills/service/avtarService/AddExperienceService";
+
 import moment from 'moment-timezone';
 import { useLocation } from "react-router-dom";
 
 // Replace with your ngrok URL or server URL
-//const SOCKET_SERVER_URL="http://localhost:3000/"
-const SOCKET_SERVER_URL = 'https://avatarbackend-4v41.onrender.com/';
+const SOCKET_SERVER_URL="http://localhost:3000/"
+//const SOCKET_SERVER_URL = 'https://avatarbackend-4v41.onrender.com/';
 const socket = io(SOCKET_SERVER_URL,{
   withCredentials: true,
   reconnectionAttempts: 5,
@@ -162,7 +162,7 @@ const Avathons = () => {
             console.log("Meeting time is up!");
             // You can add any logic here when the time reaches zero
              if (timeLeft === 0) {
-              navigate("/avatar/experience?tab=completed");
+              navigate("/avatar/experience?tab=avathons");
             
             }
 
@@ -623,12 +623,7 @@ const Avathons = () => {
             }
 
             // Show Add More Time popup if the tour type is 'Private' and time left is less than or equal to 5 minutes
-            if (type.tourtype === "Private") {
-              if (timeLeft <= 300 && timeLeft > 0 && count <= 1) {
-                setShowAddMoreTimeModal(true);
-                count++;
-              }
-            } else {}
+      
           }
 
           return newTime;
@@ -756,11 +751,7 @@ const Avathons = () => {
           </div>
         </div>
       </div>
-      <AddMoreTime
-        meetId={meetId}
-        show={showAddMoreTimeModal}
-        onClose={handleCloseModal}
-      />
+      
     </>
   );
 };

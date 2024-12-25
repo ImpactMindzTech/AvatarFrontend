@@ -49,8 +49,9 @@ const handleEditAvathons = (item) => {
         }
       };
  const [countdown, setCountdown] = useState("");
+ const timezones = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
- const timezone = item?.availability?.timezone; // Get the timezone for the avatar
+ const timezone = item?.availability?.timezone || timezones; // Get the timezone for the avatar
  const mytime = item?.avathonTime; // This is the avathon start time
  
  const getRemainingTime = () => {

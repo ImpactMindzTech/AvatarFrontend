@@ -27,9 +27,10 @@ function SwiperSlider({
   const slides = [thumnail,...item];
 
   const [countdown, setCountdown] = useState("");
-
+  const timezones = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  let avatartimezone = timezone || timezones;
   const getRemainingTime = () => {
-    const exacttime = getDateTimeForTimezone(timezone); // Get the current time for the avatar's timezone
+    const exacttime = getDateTimeForTimezone(avatartimezone); // Get the current time for the avatar's timezone
     const mytime = avathontime; // This is the avathon start time
   
     // Parse both times using moment
@@ -137,21 +138,22 @@ const totalremainspots = availablemember-joinedmember;
       <>
       <div className="absolute top-3  left-3 z-[1] flex w-[93%] justify-between">
       <div className="bg-[white] px-4 pt-[4px] pb-[6px] rounded-full leading-none text-sm text-slate-500 sm:text-[12px] text-[14px]">
-        <p>
+        <p className="text-start">
           Starts in:<br></br>
         
         </p>
         <p className="mt-1"> {countdown}</p>
        
       </div>
-     
-<div className="bg-[white] px-4  pt-[4px] pb-[6px] rounded-full leading-none text-sm inline-flex items-center gap-2 sm:text-[12px]">
+     {totalremainspots===0?(''
+):( <div className="bg-[white] px-4  pt-[4px] pb-[6px] rounded-full leading-none text-sm inline-flex items-center gap-2 sm:text-[12px]">
 
 <p>
 🔥 Only {totalremainspots} available
 <p className="text-end mt-1">spots left</p>
 </p>
 </div>
+)}
 
 
 
