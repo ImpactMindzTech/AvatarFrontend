@@ -16,7 +16,8 @@ import {
 import { completeoffer } from "@/utills/service/userSideService/userService/UserHomeService";
 
 export default function AvathonJoinCard({ state, item }) {
-  const [rid, setid] = useState(null);
+  let id = localStorage.getItem("jid");
+  const [rid, setid] = useState(id);
   const[buttonActive,setButtonActive] = useState(false);
   const [remainingTime, setRemainingTime] = useState(null);
   const [isCountdownOver, setIsCountdownOver] = useState(false);
@@ -29,7 +30,8 @@ export default function AvathonJoinCard({ state, item }) {
 
   const handlejoin = () => {
     socket.connect();
-    window.location.href = `/user/avathon_join/${rid}`;
+    let id = rid || localStorage.getItem("jid");
+    window.location.href = `/user/avathon_join/${id}`;
   };
 
   const handlecomplete = async (item) => {
@@ -52,8 +54,9 @@ export default function AvathonJoinCard({ state, item }) {
 
   useEffect(() => {
     socket.connect();
-    socket.on("roomIds", (data) => {
-      setid(data.generatedRoomId);
+    socket.on("roomIdss", (data) => {
+      localStorage.setItem("jid", data.roomId);
+      setid(data.roomId);
       setButtonActive(true); // Button becomes active after the room ID is received
     });
   }, []);
@@ -171,7 +174,7 @@ export default function AvathonJoinCard({ state, item }) {
   </div>
 </div>
 
-           {visible && (     <div className="flex w-full gap-3 mt-3 bg-backgroundFill-900 items-center justify-center">
+           {rid && (     <div className="flex w-full gap-3 mt-3 bg-backgroundFill-900 items-center justify-center">
        
        <button  onClick={() => handlejoin()}
 className="flex-1 font-medium px-4 py-2 rounded text-white" 
