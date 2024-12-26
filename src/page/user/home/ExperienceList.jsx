@@ -129,7 +129,7 @@ const ExperienceList = ({ product }) => {
             
               </p>
               <p className="text-[#FFFFFF]">
-               Early bid: {getCurrencySymbol()}{product?.EarlybirdPrice}  | Regular {getCurrencySymbol()}{product?.avathonPrice}
+               Early bid: <b>{getCurrencySymbol()}{product?.EarlybirdPrice}</b>  |Regular  <b>{getCurrencySymbol()}{product?.avathonPrice}</b>
               </p>
               {/* <img src={Images.info} className=""/> */}
           <div className="flex items-center gap-2 py-1 sm:py-[2px] text-xs text-[#FFFFFF] ">
@@ -147,7 +147,7 @@ const ExperienceList = ({ product }) => {
                           <img src={Images.whiteclock} alt="clock" className="w-5 h-5" />
                         </div>
                         <div className="flex-1 text-[16px]">
-                          {formatTime(product?.avathonTime.slice(0, -1))}
+                          {formatTime(product?.avathonTime)}
                         </div>
                       </div>
                       

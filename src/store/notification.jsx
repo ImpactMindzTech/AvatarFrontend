@@ -18,8 +18,12 @@ export const SocketProvider = (props) => {
   const[rid,setid] = useState(null);
   const [showNotification, setShowNotification] = useState(false);
   const [meetingData, setMeetingData] = useState([]);
+  const[avid,setavth]=useState(null);
+const[adata,setadata] = useState([]);
   const[offerdata,setofferData] = useState([]);
+  const[isdata,setdataa] = useState(false);
   const dispatch = useDispatch()
+
 
   useEffect(() => {
     socket.connect();
@@ -48,7 +52,7 @@ export const SocketProvider = (props) => {
       });
 
       socket.on("roomIds",(data)=>{
-  
+ 
    
         setid(data?.generatedRoomId);
         setofferData(data);
@@ -61,10 +65,15 @@ export const SocketProvider = (props) => {
         console.log(data);
        
       })
+   
+    socket.on('roomIdss',(data)=>{
+   console.log(data);
+      setavth(data?.roomId);
+      setadata(data);
 
-      socket.on('created',(data)=>{
  
-      })
+   
+    })
       return () => {
         socket.off("getMessage", handleIncomingMessage);
         socket.off("meetLink");
@@ -77,7 +86,7 @@ export const SocketProvider = (props) => {
 
 
   const baba = "sanju";
-  const contextvalue = { baba, meetLink, showNotification, meetingData,rid,offerdata };
+  const contextvalue = { baba, meetLink, showNotification, meetingData,rid,offerdata,avid,isdata,adata };
 
   return <SocketContext.Provider value={contextvalue}>{props.children}</SocketContext.Provider>;
 };

@@ -188,6 +188,15 @@ export const rateTourApi = async (id, payload) => {
     console.log(error);
   }
 };
+export const avtrateTourApi = async (id, payload) => {
+  try {
+    const res = await axiosInstance.post("user/giverate/" + id, payload);
+    return res.data;
+  } catch (error) {
+    toast.error(error?.response?.data?.message);
+    console.log(error);
+  }
+};
 
 
 export const payaddon = async(payload)=>{

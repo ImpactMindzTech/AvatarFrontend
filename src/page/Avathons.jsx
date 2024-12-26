@@ -14,7 +14,7 @@ import moment from 'moment-timezone';
 import { useLocation } from "react-router-dom";
 
 // Replace with your ngrok URL or server URL
-const SOCKET_SERVER_URL="http://localhost:3000/"
+const SOCKET_SERVER_URL="https://api.avatarwalk.com/"
 //const SOCKET_SERVER_URL = 'https://avatarbackend-4v41.onrender.com/';
 const socket = io(SOCKET_SERVER_URL,{
   withCredentials: true,
@@ -59,6 +59,7 @@ const Avathons = () => {
   const [remainingTime, setRemainingTime] = useState(0);
   const[expid,setexpid] = useState(null);
   const queryParams = new URLSearchParams(location.search);
+const userid = getLocalStorage("user")?._id;
 
   // Example: Get the value of a query parameter called 'id'
   const aid = queryParams.get('admin');
@@ -310,6 +311,7 @@ const Avathons = () => {
     const generatedRoomId = params?.id;
     setRoomId(generatedRoomId);
     socket.emit("createa", generatedRoomId);
+  
   };
 
   const joinRoom = () => {
@@ -618,7 +620,7 @@ const Avathons = () => {
             // Redirect when timeLeft hits 0
             if (timeLeft === 0) {
              
-              navigate(`/user/rate-tour/${expid}`,{ state: {res: type }});
+              navigate(`/user/rate-avathon/${expid}`,{ state: {res: type }});
         
             }
 
@@ -665,18 +667,18 @@ const Avathons = () => {
                 <div className=" text-white">
                   <span>Streaming Time: {formatViewerTimer(viewerTimer)}</span>
                 </div>
-                <div className=" text-white">
+                {/* <div className=" text-white">
                   <span>Remaining Time: {formatViewerTimer(remain)}</span>
-                </div>
+                </div> */}
               </div>
             </>
           )}
           {isBroadcaster && (
             <div className="flex items-center space-x-2 text-white w-full">
               <span className="text-white rounded-md bg-[#fff]/[.2] px-[6px] py-[4px] text-sm">Streaming Time: {formatTimer(timer)}</span>
-              <span className="text-white rounded-md bg-[#fff]/[.2] px-[6px] py-[4px] text-sm">
+              {/* <span className="text-white rounded-md bg-[#fff]/[.2] px-[6px] py-[4px] text-sm">
                 Remaining Time: {formatTime(remainingTime)}
-              </span>
+              </span> */}
             </div>
           )}
         </div>

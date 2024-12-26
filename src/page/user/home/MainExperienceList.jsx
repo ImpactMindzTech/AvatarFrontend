@@ -322,9 +322,9 @@ const MainExperienceList = ({ product }) => {
           />
           <div className=" relative first-letter:capitalize sm:text-base">
            
-              <div className="flex items-center">              
-                {product.avathonTitle} 
-              <span className="text-white bg-[#522F44] text-[#E95658] font-normal rounded-3xl pl-2 pr-2 p-0 ml-2">Avathon</span></div>
+          <div className="flex items-center text-white text-[16px] font-semibold pt-2">              
+                    {product.avathonTitle} 
+                  <span className="text-[#FF5B5B] bg-[#522F44] text-[#E95658] font-normal rounded-3xl pl-2 pr-2 p-0 mt-1 ms-4 text-[12px] px-2 py-1">Avathon</span></div>
 
            
             <p className="text-white">Host: {product?.avatarName}</p>
@@ -355,7 +355,7 @@ const MainExperienceList = ({ product }) => {
                       <img src={Images.whiteclock} alt="clock" className="w-5 h-5" />
                     </div>
                     <div className="flex-1 text-[16px]">
-                      {formatTime(product?.avathonTime.slice(0, -1))}
+                      {formatTime(product?.avathonTime)}
                     </div>
                   </div>
                   

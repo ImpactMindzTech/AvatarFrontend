@@ -9,8 +9,8 @@ let userId = getLocalStorage("user")?._id;
 
 
 
-const socket = io(`https://avatarbackend-4v41.onrender.com/`, {
-//const socket = io(`http://localhost:3000/`, {
+//const socket = io(`https://avatarbackend-4v41.onrender.com/`, {
+const socket = io(`https://api.avatarwalk.com/`, {
   withCredentials: true,
   query: {user:userId},
   reconnectionAttempts: 5, 
@@ -23,6 +23,7 @@ const socket = io(`https://avatarbackend-4v41.onrender.com/`, {
 socket.on("connect", () => {
   console.log(`Connected to server `);
 });
+
 socket.connect();
 
 export default socket;

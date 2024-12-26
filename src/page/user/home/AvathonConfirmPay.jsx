@@ -101,7 +101,7 @@ const handlecheckout = async () => {
     }
   }
 };
-
+console.log(details);
   return (
     <>
       {loader && <Loader />}

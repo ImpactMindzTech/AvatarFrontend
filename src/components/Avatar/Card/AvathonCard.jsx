@@ -97,6 +97,7 @@ const handleEditAvathons = (item) => {
  }, [mytime, timezone]);
  const createroom = ()=>{
   const generatedRoomId =  Math.random().toString(36).substr(2, 2);
+  setLocalStorage("avId", generatedRoomId);
   navigate(`/avatar/avathon_create/${generatedRoomId}`);
  }
   return (

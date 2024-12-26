@@ -14,8 +14,9 @@ import {
 } from "@/constant/date-time-format/DateTimeFormat";
 import Images from "@/constant/Images";
 import { setProductList } from "@/store/slice/experinceS/ExperinceSlice";
-import { setLocalStorage } from "@/utills/LocalStorageUtills";
+import { getLocalStorage, setLocalStorage } from "@/utills/LocalStorageUtills";
 import { Joinavathon, useravathonApi, userExperienceListApi } from "@/utills/service/userSideService/userService/UserHomeService";
+import socket from "@/utills/socket/Socket";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
@@ -57,6 +58,8 @@ function Book_Avathon_Details() {
   }, []);
 const handlejoin = async(details)=>{
   try{
+    let userID = getLocalStorage("user")?._id;
+    socket.emit("uid",{details,userID});
 
     let res = await Joinavathon(details?._id);
     if(res.isSuccess){
@@ -425,7 +428,7 @@ console.log(details)
                   />
                 </div>
                 <div className="flex-1 text-[16px]">
-                  {formatTime(details?.avathonTime?.slice(0, -1))}
+                  {formatTime(details?.avathonTime)}
                 </div>
               </div>
             </div>

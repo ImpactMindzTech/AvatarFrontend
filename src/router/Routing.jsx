@@ -94,6 +94,8 @@ import EditAvathonsPage from "@/page/avtar/Avathons/EditAvathonsPage";
 import MainBookAvathonDetails from "@/page/user/home/MainBookAvathonDetails";
 import Book_Avathon_Details from "@/page/user/home/Book_Avathon_Details";
 import AvathonConfirmPay from "@/page/user/home/AvathonConfirmPay";
+import Avathonrate from "@/page/user/avathonRate";
+import Avathontip from "@/page/user/avathonTip";
 
 const router = createBrowserRouter([
   {
@@ -539,12 +541,28 @@ const router = createBrowserRouter([
           </DashboardLayout>
         ),
       },
+      {
+        path: "rate-avathon/:id",
+        element: (
+          <DashboardLayout>
+            <Avathonrate/>
+          </DashboardLayout>
+        ),
+      },
 
       {
         path: "tip",
         element: (
           <DashboardLayout>
             <Tip />
+          </DashboardLayout>
+        ),
+      },
+      {
+        path: "avttip",
+        element: (
+          <DashboardLayout>
+            <Avathontip/>
           </DashboardLayout>
         ),
       },

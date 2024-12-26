@@ -11,9 +11,10 @@ import { getLocalStorage } from "./utills/LocalStorageUtills";
 import OfferNotification from "./components/Modal/OfferNotification";
 import toast from "react-hot-toast";
 import Images from "./constant/Images";
+import AvathonNotification from "./components/Modal/AvathonJoin";
 
 function App() {
-  const { meetLink, meetingData, rid, offerdata } = useContext(SocketContext);
+  const { meetLink, meetingData, rid, offerdata,avid,isdata,adata} = useContext(SocketContext);
   const getroom = getLocalStorage("notificationData")?.roomId;
   const [copyMessage, setCopyMessage] = useState(false);
 
@@ -119,12 +120,12 @@ function App() {
       </div>
     );
   }
-
   // Normal app content when not in WebView
   return (
     <>
       {meetLink && <MeetingNotification data={meetingData} />}
       {rid && <OfferNotification data={offerdata} />}
+      {avid && <AvathonNotification rid={avid} data={adata}/>}
 
       <Toaster
         reverseOrder={false}
