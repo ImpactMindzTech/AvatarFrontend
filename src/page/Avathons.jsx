@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 
 import moment from 'moment-timezone';
 import { useLocation } from "react-router-dom";
+import PollingComponent from "../components/pollingComponent";
 
 // Replace with your ngrok URL or server URL
 const SOCKET_SERVER_URL="http://localhost:3000/"
@@ -48,7 +49,7 @@ const Avathons = () => {
   const [meetdata, setdata] = useState(null);
   const [type, settype] = useState(null);
   const params = useParams();
-
+const [poll,setpoll] = useState(false);
   const navigate = useNavigate();
   const [viewerTimer, setViewerTimer] = useState(0);
   const [timer, setTimer] = useState(0);
@@ -708,24 +709,28 @@ let avathonid = localStorage.getItem("avathonid")
                 <img src={Images.iconEyeLight} alt="Viewers" />
                 {viewers}
               </div>
-              <form
-                className="flex flex-wrap absolute bottom-0 w-[95%] justify-between pb-[20px] sm:pb-[10px]"
-                onSubmit={handleSendMessage}
-              >
-                <input
-                  type="text"
-                  value={messageInput}
-                  onChange={(e) => setMessageInput(e.target.value)}
-                  placeholder="Type a message..."
-                  className="bg-[#E5E5E5]/30 border-2 px-4 placeholder-white font-medium border-white rounded-full text-base sm:text-sm text-white w-[calc(100%-80px)] h-[46px]"
-                />
-                <button
-                  type="submit"
-                  className="bg-[#2d2d2d] hover:bg-[#1f1f1f] text-white font-bold h-[46px] px-4 rounded-full"
-                >
-                  Send
-                </button>
-              </form>
+              <div className="absolute bottom-10 ">
+  <button
+    onClick={() => setpoll(!poll)}
+    className="
+      bg-blue-600 
+      hover:bg-blue-500 
+      text-white 
+      font-semibold 
+      px-5 
+      py-2 
+      rounded-lg 
+      shadow-md 
+      transition 
+      duration-200
+      ease-in-out
+    "
+  >
+    +
+  </button>
+  {poll===true ?(<PollingComponent></PollingComponent>):('')}
+</div>
+
             </>
           ) : (
             <div
@@ -776,6 +781,7 @@ let avathonid = localStorage.getItem("avathonid")
       
     </>
   );
+ 
 };
 
 export default Avathons;

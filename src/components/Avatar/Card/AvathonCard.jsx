@@ -64,11 +64,16 @@ const handleEditAvathons = (item) => {
    // Calculate the difference
    let timeDifference = avathonMoment.diff(exactMoment); // The difference in milliseconds
  
-   if (timeDifference < 0) {
+   if (item?.avathonsStatus === "Accepted") {
+    if (timeDifference < 0) {
+      setvisible(true);
+      return "Start Event";
+    }
+  } else if (timeDifference === 0) {
     setvisible(true);
-     return "Start Event";
-   }
- 
+    return item.avathonsStatus;
+  }
+  
    // Convert the difference to hours, minutes, and seconds
    const duration = moment.duration(timeDifference);
    const hours = Math.floor(duration.asHours());
