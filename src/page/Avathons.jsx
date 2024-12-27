@@ -60,7 +60,7 @@ const Avathons = () => {
   const[expid,setexpid] = useState(null);
   const queryParams = new URLSearchParams(location.search);
 const userid = getLocalStorage("user")?._id;
-
+let avathonid = localStorage.getItem("avathonid")
   // Example: Get the value of a query parameter called 'id'
   const aid = queryParams.get('admin');
 
@@ -311,6 +311,7 @@ const userid = getLocalStorage("user")?._id;
     const generatedRoomId = params?.id;
     setRoomId(generatedRoomId);
     socket.emit("createa", generatedRoomId);
+    socket.emit("details",avathonid);
   
   };
 
@@ -702,10 +703,29 @@ const userid = getLocalStorage("user")?._id;
                 playsInline
                 muted
               ></video>
+            
               <div className="watching-live-count text-white inline-flex items-center gap-[5px] text-lg sm:text-base absolute top-auto left-auto bottom-[80px] right-[20px] leading-none">
                 <img src={Images.iconEyeLight} alt="Viewers" />
                 {viewers}
               </div>
+              <form
+                className="flex flex-wrap absolute bottom-0 w-[95%] justify-between pb-[20px] sm:pb-[10px]"
+                onSubmit={handleSendMessage}
+              >
+                <input
+                  type="text"
+                  value={messageInput}
+                  onChange={(e) => setMessageInput(e.target.value)}
+                  placeholder="Type a message..."
+                  className="bg-[#E5E5E5]/30 border-2 px-4 placeholder-white font-medium border-white rounded-full text-base sm:text-sm text-white w-[calc(100%-80px)] h-[46px]"
+                />
+                <button
+                  type="submit"
+                  className="bg-[#2d2d2d] hover:bg-[#1f1f1f] text-white font-bold h-[46px] px-4 rounded-full"
+                >
+                  Send
+                </button>
+              </form>
             </>
           ) : (
             <div

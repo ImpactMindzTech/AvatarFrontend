@@ -16,8 +16,8 @@ import {
 import { completeoffer } from "@/utills/service/userSideService/userService/UserHomeService";
 
 export default function AvathonJoinCard({ state, item }) {
-  let id = localStorage.getItem("jid");
-  const [rid, setid] = useState(id);
+
+
   const[buttonActive,setButtonActive] = useState(false);
   const [remainingTime, setRemainingTime] = useState(null);
   const [isCountdownOver, setIsCountdownOver] = useState(false);
@@ -30,8 +30,8 @@ export default function AvathonJoinCard({ state, item }) {
 
   const handlejoin = () => {
     socket.connect();
-    let id = rid || localStorage.getItem("jid");
-    window.location.href = `/user/avathon_join/${id}`;
+   
+      window.location.href = `/user/avathon_join/${item?.avathonId?.roomId}`;
   };
 
   const handlecomplete = async (item) => {
@@ -159,7 +159,7 @@ export default function AvathonJoinCard({ state, item }) {
                       <img src={Images.clock} alt="clock" className="w-3 h-3" />
                     </div>
                     <div className="flex-1">
-                      {formatTime(item?.avathonId?.avathonTime.slice(0, -1))}
+                      {formatTime(item?.avathonId?.avathonTime)}
                     </div>
                   </div>
                 </div>
@@ -174,7 +174,7 @@ export default function AvathonJoinCard({ state, item }) {
   </div>
 </div>
 
-           {rid && (     <div className="flex w-full gap-3 mt-3 bg-backgroundFill-900 items-center justify-center">
+           {item?.avathonId?.roomId && (     <div className="flex w-full gap-3 mt-3 bg-backgroundFill-900 items-center justify-center">
        
        <button  onClick={() => handlejoin()}
 className="flex-1 font-medium px-4 py-2 rounded text-white" 

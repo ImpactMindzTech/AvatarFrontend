@@ -19,7 +19,7 @@ import toast from "react-hot-toast";
 
 
 const AvathonCard = ({ item, role,experienceStatus,setExperienceStatus }) => {
-// console.log(item);
+
       let navigate = useNavigate();
       const [loader, setLoader] = useState(false);
       const[visible,setvisible]  =useState(false);
@@ -95,10 +95,11 @@ const handleEditAvathons = (item) => {
    // Clean up the interval when the component unmounts
    return () => clearInterval(interval);
  }, [mytime, timezone]);
- const createroom = ()=>{
+ const createroom = (item)=>{
   const generatedRoomId =  Math.random().toString(36).substr(2, 2);
   setLocalStorage("avId", generatedRoomId);
   navigate(`/avatar/avathon_create/${generatedRoomId}`);
+  localStorage.setItem("avathonid",item?._id);
  }
   return (
     <div className="p-4 sm:p-0 sm:mt-2">
@@ -150,13 +151,13 @@ const handleEditAvathons = (item) => {
                 <img src={Images.clock} alt="clock" className="w-3 h-3" />
               </div>
               <div className="flex-1">
-                {formatTime(item?.avathonTime.slice(0, -1))}
+                {formatTime(item?.avathonTime)}
               </div>
             </div>
           </div>
           <div className="w-full  text-center mt-3">
           <div className="bg-gray-800 w-[100%]  text-white font-medium px-4 py-2 rounded hover:bg-gray-700" >
-    <button disabled={!visible}  onClick={createroom}>
+    <button disabled={!visible}  onClick={()=>createroom(item)}>
 
     {countdown}
 

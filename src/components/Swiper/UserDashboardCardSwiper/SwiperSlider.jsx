@@ -7,7 +7,7 @@ import Images from "@/constant/Images";
 import { getCurrencySymbol } from "@/constant/CurrencySign";
 import { getDateTimeForTimezone } from "@/constant/date-time-format/DateTimeFormat";
 import moment from 'moment-timezone'
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 function SwiperSlider({
   item,
   product,
@@ -75,7 +75,21 @@ const averageRating =  avrrating;
 const joinedmember = product?.joinedMembers;
 const availablemember = product?.Availablespots ;
 const totalremainspots = availablemember-joinedmember;
+const videoRef = useRef(null);
 
+const handleFullscreen = () => {
+  if (videoRef.current) {
+    if (videoRef.current.requestFullscreen) {
+      videoRef.current.requestFullscreen();
+    } else if (videoRef.current.mozRequestFullScreen) { // Firefox
+      videoRef.current.mozRequestFullScreen();
+    } else if (videoRef.current.webkitRequestFullscreen) { // Chrome, Safari, Opera
+      videoRef.current.webkitRequestFullscreen();
+    } else if (videoRef.current.msRequestFullscreen) { // IE/Edge
+      videoRef.current.msRequestFullscreen();
+    }
+  }
+};
 
   return (
     <Swiper  pagination={{ clickable: true}}  modules={[Pagination]} className={`${avathonTrue ?'avathonCustomdots':'mySwiper z-10'} `} navigation>
@@ -84,17 +98,24 @@ const totalremainspots = availablemember-joinedmember;
         return (
           <SwiperSlide key={index}>
   {src?.endsWith('.mp4') || src?.endsWith('.webm') ? (
+    <>
     <video
       className={`aspect-video object-cover m-auto w-full ${avathonTrue?'rounded-t-lg':'rounded-lg'}`}
       src={src}
- 
+      ref={videoRef}
       loading="lazy"
       alt="slider_video"
       autoPlay
       muted
+      controlsList="fullscreen"
+      loop
+      onClick={handleFullscreen}
     >
-      Your browser does not support the video tag.
+      
     </video>
+     
+     </>
+    
   ) : (
     <img
       loading="lazy"

@@ -236,7 +236,8 @@ function Profile() {
                 />
                 <ProfilePageCard
                   active={false}
-                  icon={Images.flag}
+                  icon={Images.calendarIcon
+                  }
                   text="Create Avathons"
                   link="/avatar/create-avathons"
                 />

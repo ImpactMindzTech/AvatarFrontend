@@ -58,7 +58,7 @@ const MainHomePage = () => {
   // Extract tab from URL query parameters
   const getQueryTab = () => {
     const searchParams = new URLSearchParams(location.search);
-    return searchParams.get("tab")?.toLowerCase() || "all";
+    return searchParams.get("tab")?.toLowerCase() || "featureevent";
   };
 
   const fetchUserExperience = useCallback(
@@ -207,7 +207,7 @@ const MainHomePage = () => {
             {tabs.map(({ key }) => (
               <button
                 key={key}
-                className={`px-4 py-2 text-sm font-medium border-b-2 ${
+                className={`px-4 py-2 text-sm font-medium border-b-2 whitespace-nowrap ${
                   activeTab === key
                     ? "border-primaryColor-900 text-primaryColor-900 font-bold"
                     : "border-transparent text-gray-500 hover:text-gray-700"

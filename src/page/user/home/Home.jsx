@@ -185,7 +185,7 @@ useEffect(()=>{
       {loading && <Loader />}
       <div className="container">
         <UserTopSearch onSearch={setSearch} />
-        <div className="lg:overflow-x-auto lg:overflow-y-hidden border-b">
+        <div className="lg:overflow-x-auto lg:overflow-y-hidden border-b whitespace-nowrap">
           <div className="flex border-b">
             {tabs.map(({ key }) => (
               <button

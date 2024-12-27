@@ -25,9 +25,10 @@ function CreateNewAvathonsPage() {
 
   const getAvathons = async () => {
     setLoader(true);
+
     try {
       const response = await getAvathonsApi();
-
+ localStorage.setItem("avathons",JSON.stringify(response.data._id))
       if (response?.isSuccess) {
         setAvathonsData(response.data);
         // dispatch(setExperinceList(response.data));

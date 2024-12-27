@@ -116,7 +116,7 @@ import tiktok from "../assets/images/tik-tok.svg";
 import insta from "../assets/images/instagram.svg";
 import whatsapp from "../assets/images/whatsapp.svg";
 import hotsport from "../assets/images/hotsport.svg";
-
+import fullscreen from "../assets/images/FullScreen.svg"
 import closeCircle from "../assets/images/closeCircle.svg";
 import locationNew from "../assets/images/locationNew.svg";
 import instantLiveBtns from "../assets/images/instantlivebtn_Live.svg";
@@ -143,9 +143,10 @@ import instantLiveLight from "../assets/icons/instant-live-light.svg";
 import patternDots from "../assets/images/pattern-dots.svg";
 import whitecalender from "../assets/images/calendar.svg";
 import whiteclock from "../assets/images/clocks.svg"
-
+import createevent from "../assets/images/createEvent.svg";
 
 export default {
+  fullscreen,
   whiteclock,
   whitecalender,
   patternDots,
@@ -288,5 +289,6 @@ export default {
   iconGlobeClock,
   iconCheckGray,
   haveGimbal,
-  user4
+  user4,
+  createevent
 };
