@@ -28,7 +28,7 @@ const MainHomePage = () => {
   const [instantLiveModalState, setInstantLiveModalState] = useState(false);
   const [multipleAddressModalState, setMultipleAddressModalState] =
     useState(false);
-  const [activeTab, setActiveTab] = useState("Feature Event");
+  const [activeTab, setActiveTab] = useState("All");
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
   const [meetlink, setmeetlink] = useState("");
@@ -58,7 +58,7 @@ const MainHomePage = () => {
   // Extract tab from URL query parameters
   const getQueryTab = () => {
     const searchParams = new URLSearchParams(location.search);
-    return searchParams.get("tab")?.toLowerCase() || "featureevent";
+    return searchParams.get("tab")?.toLowerCase() || "all";
   };
 
   const fetchUserExperience = useCallback(
