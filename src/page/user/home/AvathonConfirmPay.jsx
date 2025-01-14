@@ -3,13 +3,13 @@ import HeaderBack from "@/components/HeaderBack";
 import EditDateModal from "@/components/Modal/EditDateModal";
 import EditTimeModal from "@/components/Modal/EditTimeModal";
 import ConfirmPaymentForm from "@/components/Payment Card/Confirm_Page_Payment";
-import { formatDate, formatTime } from "@/constant/date-time-format/DateTimeFormat";
+import { formatDate, formatTime, getDateTimeForTimezone } from "@/constant/date-time-format/DateTimeFormat";
 import { getCurrencySymbol } from "@/constant/CurrencySign";
 import Images from "@/constant/Images";
 import { getBookingDetailsApi, checkout, paypalcheckout, avathoncheckout, avathonpaypalcheckout } from "@/utills/service/userSideService/userService/UserHomeService";
 import { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
-
+import moment from "moment-timezone"
 import { loadStripe } from "@stripe/stripe-js";
 import Loader from "@/components/Loader";
 import AvathonConfirmPayCard from "@/components/Cards/AvathonConfirmPayCard/AvathonConfirmPayCard";
@@ -42,18 +42,22 @@ function AvathonConfirmPay() {
   const [showEditTimeModal, setShowEditTimeModal] = useState(false);
   const [bookingDetails, setBookingDetails] = useState(null);
   const [loader, setLoader] = useState(false);
+  const [earlybid,setearlybid] = useState(false);
   const location = useLocation();
   const details = location.state?.details; // Access the details passed in state
 
   console.log(details,"details");
+  
 
 const regularPrice = parseFloat(details?.avathonPrice) || 0; // Ensure regularPrice is a number
 const commission = parseFloat(details?.commission) || 0;
+const discount = earlybid?details?.EarlybirdPrice:0;
+
 // console.log(typeof(commission),"commission");
 // console.log(commission,"commission");
 const adminfee = commission/100*regularPrice;
 // console.log(adminfee,"addmin")
-const totalprice = adminfee+regularPrice;
+const totalprice = adminfee+regularPrice-discount;
 
 const handlecheckout = async () => {
   if (selectedMethod === "stripe") {
@@ -101,7 +105,61 @@ const handlecheckout = async () => {
     }
   }
 };
-console.log(details);
+const timezone = details?.avtTimezone;
+const getRemainingTime = () => {
+  const exacttime = getDateTimeForTimezone(details?.avtTimezone); // Get the current time for the avatar's timezone
+  const mytime = details?.avathonTime; // This is the avathon start time
+
+  // Parse both times using moment
+  const avathonMoment = moment.tz(mytime, timezone); // Convert avathontime to a moment object in the same timezone
+  const exactMoment = moment.tz(exacttime, timezone); // Convert exacttime to a moment object in the specified timezone
+
+  // Calculate the difference
+  let timeDifference = avathonMoment.diff(exactMoment); // The difference in milliseconds
+
+
+
+  // Convert the difference to hours
+  const duration = moment.duration(timeDifference);
+  const hours = Math.floor(duration.asHours());
+
+  if (hours > 24) {
+    // If the remaining time is less than 24 hours, show a specific message
+    console.log("more than 24 hours")
+    setearlybid(true);
+    
+  }
+  if(hours<24){
+    setearlybid(false); 
+  }
+  
+
+  // Calculate hours, minutes, and seconds for the remaining time
+  const minutes = duration.minutes();
+  const seconds = duration.seconds();
+
+  // Format the result as a string
+  const formattedDifference = `${hours}hrs : ${minutes}min : ${seconds}sec`;
+  return formattedDifference;
+};
+
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const newCountdown = getRemainingTime();
+  
+  
+      // If the event has started, stop the countdown
+      if (newCountdown === "Event started") {
+        clearInterval(interval);
+      }
+    }, 1000);
+  
+    // Clean up the interval when the component unmounts
+    return () => clearInterval(interval);
+  }, [details?.avathonTime, timezone]); 
+  
+  
   return (
     <>
       {loader && <Loader />}
@@ -158,19 +216,31 @@ console.log(details);
 
                 <div className="text flex justify-between py-1 sm:text-sm">
                   <div className="title">
-                    Regular Price: {getCurrencySymbol()}
+                    Regular Price:
                    
                   </div>
                   <div className="font-medium">
-                    {getCurrencySymbol()}
-                    {details?.avathonPrice}
+                   <b> {getCurrencySymbol()}
+                   {details?.avathonPrice}</b>
                   </div>
                 </div>
+             {earlybid &&(   <div className="text flex justify-between py-1 sm:text-sm">
+                  <div className="title">
+                    EarlyBird:
+                   
+                  </div>
+                  <div className="font-medium">
+                  <b>   -
+                    {getCurrencySymbol()}
+                   {details?.EarlybirdPrice
+                    }</b>
+                  </div>
+                </div>)}
                 <div className="text flex justify-between py-1 sm:text-sm">
                   <div className="title">Avatar Walk Fee</div>
                   <div className="font-medium">
-                    {getCurrencySymbol()}
-                    {adminfee.toFixed(2)}
+                  <b>  {getCurrencySymbol()}
+                  {adminfee.toFixed(2)}</b>
                   </div>
                 </div>
 

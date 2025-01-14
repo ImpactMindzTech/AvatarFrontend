@@ -11,6 +11,7 @@ import {
   formatDate,
 } from "@/constant/date-time-format/DateTimeFormat";
 import { completeoffer } from "@/utills/service/userSideService/userService/UserHomeService";
+import { setExperinceList } from "@/store/slice/avtar/ExperienceFiltter";
 
 export default function OffersCard({ state, item }) {
 
@@ -20,7 +21,7 @@ export default function OffersCard({ state, item }) {
   const [loader, setLoader] = useState(false);
   const [, forceUpdate] = useState(0);
   const navigate = useNavigate();
-
+ const[expire,setExpire] = useState(false);
   const handleclick = (item) => {
     navigate(`/user/offer_confirm/${item?._id}`);
   };
@@ -63,12 +64,18 @@ export default function OffersCard({ state, item }) {
   const calculateRemainingTime = () => {
     const now = new Date();
     const bookingDateTime = new Date(item?.Time); // Assuming bookingTime is stored as UTC
+    const endDateTime = new Date(item?.endTime);
+    const localEndTime = new Date(endDateTime.getTime() + (endDateTime.getTimezoneOffset() * 60000));
     const localBookingTime = new Date(
       bookingDateTime.getTime() + bookingDateTime.getTimezoneOffset() * 60000
     );
 
     const timeDiff = localBookingTime - now; // Difference in milliseconds
-
+    const endDiff = localEndTime - now;
+    console.log(endDiff);
+    if(endDiff<=0){
+      setExpire(true);
+    }
     if (timeDiff <= 0) {
       setRemainingTime("00::00::0");
       setIsCountdownOver(true); // Countdown is over
@@ -139,21 +146,28 @@ export default function OffersCard({ state, item }) {
             <div className="flex justify-between gap-3 mt-[15px]">
               {item?.paystatus === "Succeeded" ? (
                 <>
-                  <button
-                    onClick={handlejoin}
-                    className={`bg-backgroundFill-900 text-white flex justify-center items-center py-3 gap-2 rounded w-[45%] ${
-                      !rid ? "opacity-50 cursor-not-allowed" : ""
-                    }`}
-                    disabled={!rid}
-                  >
-                    Let's Start
-                  </button>
-                  <button
-                    onClick={() => handlecomplete(item)}
-                    className="bg-backgroundFill-900 text-white flex justify-center items-center py-3 gap-2 rounded w-[45%]"
-                  >
-                    Completed
-                  </button>
+                  {expire ? (
+  // Show the expire button if expire is true
+  <button
+    className="bg-red-500 text-white flex justify-center items-center py-3 gap-2 rounded w-full opacity-50 cursor-not-allowed"
+    disabled
+  >
+    Expired
+  </button>
+) : (
+  <>
+    {/* Show the "Let's Start" and "Completed" buttons if expire is false */}
+    <button
+      onClick={handlejoin}
+      className={`bg-backgroundFill-900 text-white flex justify-center items-center py-3 gap-2 rounded w-[95%] ${!rid ? "opacity-50 cursor-not-allowed" : ""}`}
+      disabled={!rid}
+    >
+      Let's Start
+    </button>
+   
+  </>
+)}
+
                 </>
               ) : (
                 item?.status === "Accepted" && (

@@ -59,6 +59,7 @@ function Book_Avathon_Details() {
 const handlejoin = async(details)=>{
   try{
     let userID = getLocalStorage("user")?._id;
+    localStorage.setItem("avathons",details?._id);
     socket.emit("uid",{details,userID});
 
     let res = await Joinavathon(details?._id);

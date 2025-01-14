@@ -6,8 +6,10 @@ import "swiper/css/pagination";
 import Images from "@/constant/Images";
 import { getCurrencySymbol } from "@/constant/CurrencySign";
 import { getDateTimeForTimezone } from "@/constant/date-time-format/DateTimeFormat";
+import { deleteAvathonsApi } from "@/utills/service/avtarService/CreateAvathonsService";
 import moment from 'moment-timezone'
 import { useEffect, useRef, useState } from "react";
+import { ConstructionOutlined } from "@mui/icons-material";
 function SwiperSlider({
   item,
   product,
@@ -26,23 +28,19 @@ function SwiperSlider({
  
   const slides = [thumnail,...item];
 
-  const [countdown, setCountdown] = useState("");
+  const [startCountdown, setStartCountdown] = useState("");
+  const [endCountdown, setEndCountdown] = useState("");
   const timezones = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const endTime = product?.endEvent;
   let avatartimezone = timezone || timezones;
-  const getRemainingTime = () => {
-    const exacttime = getDateTimeForTimezone(avatartimezone); // Get the current time for the avatar's timezone
-    const mytime = avathontime; // This is the avathon start time
-  
-    // Parse both times using moment
-    const avathonMoment = moment.tz(mytime, timezone); // Convert avathontime to a moment object in the same timezone
-    const exactMoment = moment.tz(exacttime, timezone); // Convert exacttime to a moment object in the specified timezone
-  
+let count =0;
+  const getRemainingTime = (targetTime, currentTime) => {
     // Calculate the difference
-    let timeDifference = avathonMoment.diff(exactMoment); // The difference in milliseconds
+    const timeDifference = targetTime.diff(currentTime); // The difference in milliseconds
   
     if (timeDifference < 0) {
-      // If the time difference is negative, return "Event started"
-      return "Event started";
+      // If the time difference is negative, return "Event ended" or "Event started"
+      return "Event Started";
     }
   
     // Convert the difference to hours, minutes, and seconds
@@ -52,24 +50,50 @@ function SwiperSlider({
     const seconds = duration.seconds();
   
     // Format the result as a string
-    const formattedDifference = `${hours}hrs : ${minutes}min : ${seconds}sec`;
-    return formattedDifference;
+    return `${hours}hrs : ${minutes}min : ${seconds}sec`;
+  };
+  
+  const updateCountdowns = async() => {
+    const exacttime = getDateTimeForTimezone(avatartimezone); // Get the current time for the avatar's timezone
+    const avathonMoment = moment.tz(avathontime, timezone); // Convert avathontime to a moment object in the same timezone
+    const exactMoment = moment.tz(exacttime, timezone); // Convert exacttime to a moment object in the specified timezone
+    const endMoment = moment.tz(endTime, timezone); // Convert endTime to a moment object in the same timezone
+  
+    // Update start countdown
+    const startCountdown = getRemainingTime(avathonMoment, exactMoment);
+    setStartCountdown(startCountdown);
+  
+    // Update end countdown
+    const endCountdown = getRemainingTime(endMoment, exactMoment);
+    setEndCountdown(endCountdown);
+
+    if (endMoment.diff(exactMoment) <= 0 && count<1 && product?.type=="Avathons") {
+         count++;
+      try {
+    // Mark the API as called
+        const response = await deleteAvathonsApi(product?._id);
+      
+        
+      } catch (err) {
+        console.error("Error calling deleteAvathonsApi:", err);
+      }
+    }
+
   };
   
   useEffect(() => {
     const interval = setInterval(() => {
-      const newCountdown = getRemainingTime();
-      setCountdown(newCountdown);
+      updateCountdowns();
   
-      // If the event has started, stop the countdown
-      if (newCountdown === "Event started") {
+      // If both events have ended, clear the interval
+      if (startCountdown === "Event Started" && endCountdown === "Event Started") {
         clearInterval(interval);
       }
     }, 1000);
   
     // Clean up the interval when the component unmounts
     return () => clearInterval(interval);
-  }, [avathontime, timezone]);
+  }, [avathontime, timezone, endTime]);
   
 const averageRating =  avrrating;
 const joinedmember = product?.joinedMembers;
@@ -163,7 +187,8 @@ const handleFullscreen = () => {
           Starts in:<br></br>
         
         </p>
-        <p className="mt-1"> {countdown}</p>
+        <p className="mt-1"> {startCountdown}</p>
+  
        
       </div>
      {totalremainspots===0?(''

@@ -103,6 +103,7 @@ export const createAvathonsValidation = yup.object({
   Availablespots:yup.number().required("Availablespots is required.").min(1,"Available spots must at least 1"),
   aboutStream:yup.string().required("About Stream is required."),
   avathonDescription:yup.string().required("Avathon Description is required."),
+  Hours:yup.number().required("Hours are required").min(1,"minimum number of hours must be at least 1 ").max(5,"maximum number of hours must be at least 5"),
   // avathonDate:yup.string().required("Date is required."),
   // Time:yup.string().required("Time is required."),
 });

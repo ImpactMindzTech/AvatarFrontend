@@ -7,17 +7,19 @@ import socket from "@/utills/socket/Socket";
 import { convertTo12HourFormats, formatDate } from "@/constant/date-time-format/DateTimeFormat";
 import { formatTimeAMPM } from "@/components/Cards/ExperienceCard";
 import moment from "moment";
+import { offerdelete } from "@/utills/service/userSideService/userService/UserHomeService";
 
 export default function OffersCard({ state, item }) {
   const [remainingTime, setRemainingTime] = useState(null); // State to store remaining time
   const [isCountdownOver, setIsCountdownOver] = useState(false); // State to track if countdown is over
   const [isExpired, setIsExpired] = useState(false); // State to track if the end time is crossed
   const navigate = useNavigate();
+  const [hasCalledApi, setHasCalledApi] = useState(false)
 
   // Function to calculate the remaining time until bookingTime
-  const calculateRemainingTime = () => {
+  const calculateRemainingTime = async() => {
     const now = new Date();
-    
+    let count =0;
     // Convert bookingTime and endTime to local time if stored in UTC
     const bookingDateTime = new Date(item?.bookingTime);
     const endDateTime = new Date(item?.endTime);
@@ -27,6 +29,10 @@ export default function OffersCard({ state, item }) {
   
     const timeDiff = localBookingTime - now; // Difference in milliseconds for bookingTime
     const endDiff = localEndTime - now; // Difference in milliseconds for endTime
+
+ 
+
+
   
     if (timeDiff <= 0) {
       setRemainingTime("00::00:00");
@@ -67,6 +73,8 @@ export default function OffersCard({ state, item }) {
     const generatedRoomId = Math.random().toString(36).substr(2, 2);
     socket.emit("offerId", { generatedRoomId, item });
     navigate(`/avatar/room_create/${generatedRoomId}`);
+    localStorage.setItem("orderdata",JSON.stringify(item));
+  
   };
 
   return (

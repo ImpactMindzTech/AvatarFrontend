@@ -48,9 +48,10 @@ const Room = () => {
   const [meetdata, setdata] = useState(null);
   const [type, settype] = useState(null);
   const params = useParams();
-  console.log(params);
+ 
   const navigate = useNavigate();
   const [viewerTimer, setViewerTimer] = useState(0);
+  const[offerTimer, setofferTimer] = useState(0);
   const [timer, setTimer] = useState(0);
   const timerRef = useRef(null);
   const meetId = localStorage.getItem("meet") || getLocalStorage("meetdata")?._id;
@@ -60,7 +61,12 @@ const Room = () => {
   const[expid,setexpid] = useState(null);
   const queryParams = new URLSearchParams(location.search);
 
-  // Example: Get the value of a query parameter called 'id'
+let offerdata  = JSON.parse(localStorage.getItem('orderdata'));
+let offerendtime = offerdata?.endTime;
+let avatarTimezone = localStorage.getItem('avatarTime');
+
+
+
   const aid = queryParams.get('admin');
 
   const configuration = {
@@ -175,6 +181,45 @@ const Room = () => {
 
     return () => clearInterval(timerRef.current);
   }, [isBroadcaster, localStream, meetdata, popupDismissed]);
+
+  useEffect(() => {
+    const viewerTimerRef = setInterval(() => {
+      setofferTimer((prev) => {
+        const newTime = prev + 1;
+  
+        if (offerdata && avatarTimezone) {
+  
+          const currentTime = moment.tz(avatarTimezone); // Current time in avatar's timezone
+  
+          // Remove 'Z' if present in meetdata to ensure it is treated as local time
+          let meetTimeString = offerdata?.endTime;
+  
+          if (meetTimeString.endsWith('Z')) {
+            meetTimeString = meetTimeString.slice(0, -1); // Remove 'Z'
+          }
+  
+          const meetTime = moment.tz(meetTimeString, avatarTimezone); // Meeting time in avatar's timezone
+  
+          const timeLeft = Math.max(0, meetTime.diff(currentTime, 'seconds')); // Time left in seconds
+ 
+          // Update remaining time state
+          setremain(timeLeft);
+  
+          // Redirect when timeLeft hits 0
+          if (timeLeft === 0) {
+            navigate(`/`);
+          }
+        }
+  
+        return newTime;
+      });
+    }, 100);
+  
+    return () => clearInterval(viewerTimerRef);
+  
+  }, [offerdata, avatarTimezone]);
+
+
 
   const handleCloseModal = () => {
     setShowAddMoreTimeModal(false);
@@ -639,6 +684,18 @@ const Room = () => {
     }
   }, [roomId, meetdata]);
 
+
+
+
+
+
+
+  
+  // Log the remaining time whenever it changes
+ 
+
+
+
   // Format the viewer's timer
   const formatViewerTimer = (seconds) => {
     const hrs = Math.floor(seconds / 3600)
@@ -661,7 +718,7 @@ const Room = () => {
         <div className="flex flex-col items-center space-y-1 absolute top-[20px] sm:top-[10px] left-auto right-[20px] sm:left-[10px] sm:right-[10px] mt-[40px]">
           {isBroadcaster && (
             <>
-              {/* You can add broadcaster-specific controls here */}
+          
             </>
           )}
           {!isBroadcaster && aid!=1&&(
@@ -679,9 +736,11 @@ const Room = () => {
           {isBroadcaster && (
             <div className="flex items-center space-x-2 text-white w-full">
               <span className="text-white rounded-md bg-[#fff]/[.2] px-[6px] py-[4px] text-sm">Streaming Time: {formatTimer(timer)}</span>
-              <span className="text-white rounded-md bg-[#fff]/[.2] px-[6px] py-[4px] text-sm">
+             {offerdata? <span className="text-white rounded-md bg-[#fff]/[.2] px-[6px] py-[4px] text-sm">
+                Remaining Time: {formatTime(remain)}
+              </span>: <span className="text-white rounded-md bg-[#fff]/[.2] px-[6px] py-[4px] text-sm">
                 Remaining Time: {formatTime(remainingTime)}
-              </span>
+              </span>}
             </div>
           )}
         </div>

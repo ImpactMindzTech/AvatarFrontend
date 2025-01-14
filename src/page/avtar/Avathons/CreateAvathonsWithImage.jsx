@@ -192,6 +192,7 @@ const handleRemoveVideo = () => {
     );
 
     formData.append("AvathonName", data?.AvathonName);
+    formData.append("Hours", data?.Hours);
     formData.append("country", selectedCountry.name);
     formData.append("State", selectedState?.name || "");
     formData.append("city", selectedCity || "");
@@ -501,8 +502,8 @@ const handleRemoveVideo = () => {
             </div>
           </div>
 
-          <div className="my-2 flex gap-2 items-center">
-            <div className="w-[50%]">
+          <div className="my-2 flex gap-2 items-center sm:block">
+            <div className="w-[33%] sm:w-[100%]">
               <label
                 htmlFor="EarlybirdPrice"
                 className="font-semibold items-center flex  gap-1"
@@ -513,16 +514,17 @@ const handleRemoveVideo = () => {
                 </span>
               </label>
               <input
-                type="Number"
+                type="number"
                 name="EarlybirdPrice"
                 id="EarlybirdPrice"
                 className="input my-2"
                 placeholder="$10"
+                defaultValue={0}
                 {...register("EarlybirdPrice")}
               />
               <p className="text-[red]">{errors?.EarlybirdPrice?.message}</p>
             </div>
-            <div className="w-[50%]">
+            <div className="w-[33%] sm:w-[100%]">
               <label
                 htmlFor="RegularPrice"
                 className="font-semibold items-center flex  gap-1"
@@ -542,9 +544,39 @@ const handleRemoveVideo = () => {
                 id="RegularPrice"
                 className="input my-2"
                 placeholder="$10"
+                min={1}
+              defaultValue={0}
                 {...register("RegularPrice")}
               />
               <p className="text-[red]">{errors?.RegularPrice?.message}</p>
+            </div>
+            <div className="w-[33%] sm:w-[100%]">
+              <label
+                htmlFor="Hours"
+                className="font-semibold items-center flex  gap-1"
+              >
+                Hours{" "}
+                <span>
+                  <img src={Images.info} className="w-4" />
+                </span>
+              </label>
+              {/* <div className="font-semibold flex items-center gap-1">
+                <div>Regular Price</div>
+                <div><img src={Images.info} className="w-4"/></div>
+            </div> */}
+              <input
+                type="number"
+                name="Hours"
+                id="Hours"
+                className="input my-2"
+                placeholder="1hr"
+                min={1}
+                max={5}
+                defaultValue={0}
+              
+                {...register("Hours",{valueAsNumber: true})}
+              />
+              <p className="text-[red]">{errors?.Hours?.message}</p>
             </div>
           </div>
 
@@ -564,6 +596,8 @@ const handleRemoveVideo = () => {
               id="Availablespots"
               className="input my-2"
               placeholder="10"
+              min={1}
+              defaultValue={0}
               {...register("Availablespots")}
             />
             <p className="text-[red]">{errors?.Availablespots?.message}</p>

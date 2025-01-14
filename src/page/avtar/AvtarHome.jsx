@@ -128,6 +128,7 @@ const AvtarHome = () => {
   useEffect(() => {
     const fetchData = async () => {
       const res = await getAvailableApi();
+      localStorage.setItem('avatarTime',res?.data?.timeZone)
     
     };
 

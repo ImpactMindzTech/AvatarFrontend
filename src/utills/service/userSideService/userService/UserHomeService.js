@@ -233,6 +233,15 @@ export const avathonpaypalcheckout = async (payload) => {
     toast.error(error?.response?.data.message);
   }
 };
+export const offerdelete = async (id) => {
+
+  try {
+    const res = await axiosInstance.patch(`user/deleteoffer/${id}`,);
+    return res.data;
+  } catch (error) {
+    toast.error(error?.response?.data.message);
+  }
+};
 
 
 
