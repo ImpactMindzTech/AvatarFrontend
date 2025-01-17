@@ -105,9 +105,14 @@ const handlecheckout = async () => {
     }
   }
 };
+const getExactTimeForTimezone = (timezone) => {
+  const date = new Date();
+  return date.toLocaleString('en-US', { timeZone: timezone });
+};
+
 const timezone = details?.avtTimezone;
 const getRemainingTime = () => {
-  const exacttime = getDateTimeForTimezone(details?.avtTimezone); // Get the current time for the avatar's timezone
+  const exacttime = getExactTimeForTimezone(details?.avtTimezone); // Get the current time for the avatar's timezone
   const mytime = details?.avathonTime; // This is the avathon start time
 
   // Parse both times using moment

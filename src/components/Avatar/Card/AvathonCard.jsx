@@ -55,35 +55,51 @@ const handleEditAvathons = (item) => {
  const mytime = item?.avathonTime; // This is the avathon start time
  
  const getRemainingTime = () => {
-   const exacttime = getDateTimeForTimezone(timezone); // Get the current time for the avatar's timezone
- 
-   // Parse both times using moment
-   const avathonMoment = moment.tz(mytime, timezone); // Convert avathontime to a moment object in the same timezone
-   const exactMoment = moment.tz(exacttime, timezone); // Convert exacttime to a moment object in the specified timezone
- 
-   // Calculate the difference
-   let timeDifference = avathonMoment.diff(exactMoment); // The difference in milliseconds
- 
-   if (item?.avathonsStatus === "Accepted") {
-    if (timeDifference < 0) {
-      setvisible(true);
-      return "Start Event";
+  try {
+    if (!mytime || !timezone) {
+      console.error('Missing required inputs: `mytime` or `timezone`.');
+      return 'Invalid Input';
     }
-  } else if (timeDifference === 0) {
-    setvisible(true);
-    return item.avathonsStatus;
+
+    // Ensure `mytime` is in ISO 8601 format and calculate times in the avatar's timezone
+    const avathonMoment = moment.tz(mytime, "YYYY-MM-DDTHH:mm:ss", timezone);
+    const exactMoment = moment.tz(moment(), timezone); // Current time in the specified timezone
+
+    // Validate the moment objects
+    if (!avathonMoment.isValid() || !exactMoment.isValid()) {
+      console.error('Invalid date format. Ensure `mytime` is a valid ISO 8601 string.');
+      return 'Invalid Date';
+    }
+
+    // Calculate the difference in milliseconds
+    const timeDifference = avathonMoment.diff(exactMoment);
+
+    // Handle specific status cases
+    if (item?.avathonsStatus === 'Accepted') {
+      if (timeDifference <= 0) {
+        setvisible(true);
+        return 'Start Event';
+      }
+    } else if (timeDifference === 0) {
+      setvisible(true);
+      return item.avathonsStatus;
+    }
+
+    // Convert the time difference to hours, minutes, and seconds
+    const duration = moment.duration(timeDifference);
+    const hours = Math.floor(duration.asHours());
+    const minutes = duration.minutes();
+    const seconds = duration.seconds();
+
+    // Format the countdown as "HH : MM : SS"
+    const formattedDifference = `${hours.toString().padStart(2, "0")}h : ${minutes.toString().padStart(2, "0")}m : ${seconds.toString().padStart(2, "0")}s`;
+    return formattedDifference;
+  } catch (error) {
+    console.error('Error in getRemainingTime:', error);
+    return 'Error calculating time';
   }
-  
-   // Convert the difference to hours, minutes, and seconds
-   const duration = moment.duration(timeDifference);
-   const hours = Math.floor(duration.asHours());
-   const minutes = duration.minutes();
-   const seconds = duration.seconds();
- 
-   // Format the result as a string, e.g., "hh:mm:ss"
-   const formattedDifference = `${hours}hrs : ${minutes}min : ${seconds}sec`;
-   return formattedDifference;
- };
+};
+
  
  useEffect(() => {
    const interval = setInterval(() => {
@@ -112,11 +128,13 @@ const handleEditAvathons = (item) => {
       <div className="BoxShadowLessRounded  sm:pb-2">
         <div className="flex p-4 flex-wrap sm:p-2">
           <div className="w-[30%] relative">
-            <video
-              src={item?.avathonsThumbnail || Images.cardImageRounded}
-              alt="cardImageRounded"
-              className="w-full object-cover h-full rounded-lg aspect-square"
-            />
+          {item?.avathonsThumbnail==" "?<img className="w-[100%] aspect-[1.4] object-cover rounded-2xl" src={item?.avathonsImage[0]}></img>:<video
+                    src={item?.avathonsThumbnail}
+                    autoPlay
+                    muted
+                    playsInline 
+                    className="w-[100%] aspect-[1.4] object-cover rounded-2xl"
+                  />}
             {role === "avatar" && (
               <div className="absolute bottom-2 right-1 px-2 rounded-full font-bold bg-white text-sm">
                 ${item?.totalPrice.toFixed(2)}

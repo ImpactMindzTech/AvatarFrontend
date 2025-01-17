@@ -19,6 +19,11 @@ const Username = () => {
 
   const handleImageChange = (e) => {
     if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      if (!file.type.startsWith("image/")) {
+        toast.error("Please upload a valid image file.");
+        return;
+      }
       setImage(e.target.files[0]);
       setPreview(URL.createObjectURL(e.target.files[0]));
       setErrors((prev) => ({ ...prev, image: "" })); // Clear image error on valid file

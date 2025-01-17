@@ -26,7 +26,14 @@ function SwiperSlider({
   availableSpots
 }) {
  
-  const slides = [thumnail,...item];
+  let slides;
+ if(thumnail==" "){
+
+    slides = [...item];
+ }else{
+  
+  slides = [thumnail,...item];
+ }
 
   const [startCountdown, setStartCountdown] = useState("");
   const [endCountdown, setEndCountdown] = useState("");
@@ -52,17 +59,28 @@ let count =0;
     // Format the result as a string
     return `${hours}hrs : ${minutes}min : ${seconds}sec`;
   };
+
+
+  const getExactTimeForTimezone = (timezone) => {
+    const date = new Date();
+    return date.toLocaleString('en-US', { timeZone: timezone });
+  };
   
   const updateCountdowns = async() => {
-    const exacttime = getDateTimeForTimezone(avatartimezone); // Get the current time for the avatar's timezone
-    const avathonMoment = moment.tz(avathontime, timezone); // Convert avathontime to a moment object in the same timezone
+    const exacttime = getExactTimeForTimezone(avatartimezone); 
+
+
+    // Get the current time for 
+    const avathonMoment = moment.tz(avathontime, timezone); 
+    
+    // Convert avathontime to a moment object in the same timezone
     const exactMoment = moment.tz(exacttime, timezone); // Convert exacttime to a moment object in the specified timezone
     const endMoment = moment.tz(endTime, timezone); // Convert endTime to a moment object in the same timezone
-  
+  console.log(endMoment);
     // Update start countdown
     const startCountdown = getRemainingTime(avathonMoment, exactMoment);
     setStartCountdown(startCountdown);
-  
+
     // Update end countdown
     const endCountdown = getRemainingTime(endMoment, exactMoment);
     setEndCountdown(endCountdown);
@@ -131,6 +149,7 @@ const handleFullscreen = () => {
       alt="slider_video"
       autoPlay
       muted
+      playsInline 
       controlsList="fullscreen"
       loop
       onClick={handleFullscreen}
@@ -216,15 +235,15 @@ const handleFullscreen = () => {
   
   ):(  <div className="absolute top-auto bottom-3 left-auto right-3 z-[1] flex gap-2">
 
-        <span className="bg-[white] px-4 pt-[4px] pb-[6px] rounded-full leading-none text-sm text-slate-500 sm:text-[12px]">
+        {/* <span className="bg-[white] px-4 pt-[4px] pb-[6px] rounded-full leading-none text-sm text-slate-500 sm:text-[12px]">
           <b className="text-[black]">
             {getCurrencySymbol()}
             {price}
           </b>
           /per min
-        </span>
+        </span> */}
        
-<span className="bg-[white] px-2 pt-[4px] pb-[6px] rounded-full leading-none text-sm font-bold inline-flex items-center gap-2 sm:text-[12px]">
+{/* <span className="bg-[white] px-2 pt-[4px] pb-[6px] rounded-full leading-none text-sm font-bold inline-flex items-center gap-2 sm:text-[12px]">
   <img
     loading="lazy"
     src={Images.star2}
@@ -234,7 +253,7 @@ const handleFullscreen = () => {
   {averageRating !== "NaN" && averageRating !== 0
     ? Number(averageRating).toFixed(1)
     : "No Ratings"}
-</span>
+</span> */}
 
 
 

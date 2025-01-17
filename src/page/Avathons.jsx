@@ -185,7 +185,7 @@ if (meetdata && avtTimezone) {
 
       // Update remaining time state
       setremain(timeLeft);
-    
+     
 
       // Redirect when timeLeft hits 0
       if (timeLeft === 0) {

@@ -30,7 +30,7 @@ export default function AvathonJoinCard({ state, item }) {
 
   const handlejoin = () => {
     socket.connect();
-   
+    localStorage.setItem("avathons",item?.avathonId?._id)
       window.location.href = `/user/avathon_join/${item?.avathonId?.roomId}`;
   };
 
@@ -71,8 +71,13 @@ export default function AvathonJoinCard({ state, item }) {
  const timezone = item?.availability?.timeZone; // Get the timezone for the avatar
  const mytime = item?.avathonId?.avathonTime; // This is the avathon start time
  
+ const getExactTimeForTimezone = (timezone) => {
+  const date = new Date();
+  return date.toLocaleString('en-US', { timeZone: timezone });
+};
+
  const getRemainingTime = () => {
-   const exacttime = getDateTimeForTimezone(timezone); // Get the current time for the avatar's timezone
+   const exacttime = getExactTimeForTimezone(timezone); // Get the current time for the avatar's timezone
  
    // Parse both times using moment
    const avathonMoment = moment.tz(mytime, timezone); // Convert avathontime to a moment object in the same timezone
@@ -120,12 +125,17 @@ export default function AvathonJoinCard({ state, item }) {
             <div className="BoxShadowLessRounded  sm:pb-2">
               <div className="flex p-4 flex-wrap sm:p-2">
                 <div className="w-[30%] relative">
-                  <video
+                 {item?.avathonId?.avathonsThumbnail==" "? <img className="w-[100%] aspect-[1.4] object-cover rounded-2xl" src={item?.avathonId?.avathonsImage[0]}></img>:<video
                     src={item?.avathonId?.avathonsThumbnail || Images.cardImageRounded}
                     alt="cardImageRounded"
                     className="w-full object-cover h-full rounded-lg aspect-square"
                   />
-               
+               } 
+                 
+                 
+
+
+           
                 </div>
                 <div className="w-[70%] pl-3">
             <div className="flex items-center justify-between">

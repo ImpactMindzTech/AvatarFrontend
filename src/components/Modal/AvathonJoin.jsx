@@ -27,9 +27,8 @@ const AvathonNotification = ({ rid,data}) => {
 
   const onJoin = () => {
  
-   
-   
-
+    localStorage.setItem("avathons",data?.item?._id)
+ 
     window.location.href = `/user/avathon_join/${rid}`;
     setavathondata(null);
     localStorage.removeItem("avathondata");
@@ -61,7 +60,7 @@ const AvathonNotification = ({ rid,data}) => {
           src={data?.item?.avathonsImage[0]
 
           }
-          alt="Experience"
+          alt="Avathonimage"
           className="w-16 h-16 rounded-md mr-4"
         />
         <div>

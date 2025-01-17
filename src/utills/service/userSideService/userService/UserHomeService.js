@@ -13,6 +13,18 @@ export const userExperienceApi = async (payload) => {
     console.log(error);
   }
 };
+export const userExperiencesApi = async (payload) => {
+  // console.log("payload", payload);
+  const { tab, country="United States", search, items_per_page, page } = payload;
+  try {
+    const res = await axiosInstance.get(`/user/getExperiences?filters=${tab}&country=${country}&search=${search}&items_per_page=${items_per_page}&pg=${page}`);
+    // console.log(res.data,"ress")
+    return res.data;
+  } catch (error) {
+    // toast.error(error?.response?.data?.message);
+    console.log(error);
+  }
+};
 export const getmeetdata = async(id)=>{
 
   try{

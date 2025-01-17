@@ -234,13 +234,13 @@ function Profile() {
                   text="Add Experience"
                   link="/avatar/add-experience"
                 />
-                <ProfilePageCard
+                {/* <ProfilePageCard
                   active={false}
                   icon={Images.calendarIcon
                   }
                   text="Create Avathons"
                   link="/avatar/create-avathons"
-                />
+                /> */}
                 <ProfilePageCard
                   active={false}
                   icon={Images.bank}

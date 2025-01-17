@@ -27,7 +27,7 @@ const CreateAvathonsWithImagePage = () => {
   const [selectedTime, setSelectedTime] = useState();
   const [selectedDate, setSelectedDate] = useState();
   const [disable, Setdisable] = useState(false);
-
+const[showinfo,setshowinfo] = useState(false);
   const [loading, setLoader] = useState(false);
   const navigate = useNavigate();
   const [isChecked, setIsChecked] = useState(false);
@@ -72,6 +72,7 @@ const CreateAvathonsWithImagePage = () => {
   //   }
   // };
   const handleOtherFileChange = (e) => {
+  
     if (e.target.files) {
       const files = Array.from(e.target.files);
 
@@ -176,8 +177,9 @@ const handleRemoveVideo = () => {
   // Handle date change
 
   const onSubmit = async (data) => {
-    if (!selectedFile) {
-      toast.error("Please Select a Video");
+  
+    if (otherImageURLs.length==0) {
+      toast.error("Please select at least one Image file.");
       return;
     }
     const formData = new FormData();
@@ -207,7 +209,7 @@ const handleRemoveVideo = () => {
     formData.append("lat", coordinates.lat);
     formData.append("lng", coordinates.lon);
 
-    formData.append(`video`, selectedFile);
+    formData.append(`video`, selectedFile || " ");
  
     for (let index = 0; index < otherSelectedFiles.length; index++) {
       formData.append(`images`, otherSelectedFiles[index]);
@@ -221,7 +223,7 @@ const handleRemoveVideo = () => {
       if (response?.isSuccess) {
         toast.success(response?.message);
         Setdisable(false);
-        navigate("/avatar/create-avathons");
+        navigate("/avatar/experience?tab=avathons");
       }
     } catch (error) {
       console.error("API error: ", error);
@@ -582,15 +584,21 @@ const handleRemoveVideo = () => {
 
           <div className="my-2">
             <label
-              htmlFor="Availablespots"
-              className="font-semibold flex items-center gap-1"
+              htmlFor=""
+              className="font-semibold flex items-center gap-1 cursor-pointer"
             >
               Available Spots{" "}
-              <span>
+              <span  onClick={()=>setshowinfo(!showinfo)}  >
                 <img src={Images.info} className="w-4" />
               </span>
             </label>
-            <input
+{showinfo?
+ <span className="text-[14px]  text-primaryColor-300">As an Avatar listing your live stream experience, keep in mind that
+you can limit the number of viewers for each session. This creates an exclusive and intimate experience
+allowing you to engage more personally with your audience. Highlight the limited availability in your listing to encourage
+ early booking and add value to your live stream.Remember , scarcity can make your experience more desire!</span>:'' }
+
+    <input
               type="number"
               name="Availablespots"
               id="Availablespots"

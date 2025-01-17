@@ -131,7 +131,7 @@ function App() {
         reverseOrder={false}
         toastOptions={{
           success: {
-            duration: 20000,
+            duration: 2000,
             style: {
               backgroundColor: "#f0fdf4",
               color: "#166534",
@@ -150,7 +150,7 @@ function App() {
               backgroundColor: "#fef2f2",
               color: "#991b1b",
             },
-            duration: 20000,
+            duration: 2000,
             icon: (
               <img
                 src={Images.close}

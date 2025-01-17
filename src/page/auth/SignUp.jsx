@@ -41,13 +41,22 @@ const SignUp = () => {
   const {
     handleSubmit,
     register,
+    setValue,
     formState: { errors },
   } = useForm({ resolver: yupResolver(registrationValidation) });
 
   const handleImageChange = (e) => {
+
+ 
     if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      if (!file.type.startsWith("image/")) {
+        toast.error("Please upload a valid image file.");
+        return;
+      }
       setImage(e.target.files[0]);
       setPreview(URL.createObjectURL(e.target.files[0]));
+      setValue('file', e.target.files[0])
     }
   };
 
@@ -215,8 +224,10 @@ const SignUp = () => {
                 onChange={handleImageChange}
                 accept="image/*"
                 required
+           
               />
-              <p className="text-[red] sm:text-sm">{errors?.file?.message}</p>
+        
+        
               <div className="absolute bottom-0 right-0 rounded-full p-2 cameraBoxShadow bg-backgroundFill-900 sm:w-[28px] sm:h-[28px] sm:p-[7px]">
                 <label htmlFor="Profile">
                   <img
@@ -226,9 +237,10 @@ const SignUp = () => {
                   />
                 </label>
               </div>
+           
             </div>
           </div>
-
+         
           <div>
             <label htmlFor="userName" className="label">
               Username

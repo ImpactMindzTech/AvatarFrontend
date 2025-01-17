@@ -3,7 +3,7 @@ import { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setProducts } from "@/store/slice/experinceS/ExperinceSlice";
 import UserTopSearch from "@/components/UserTopSearch/UserTopSearch";
-import { userExperienceApi } from "@/utills/service/userSideService/userService/UserHomeService";
+import { userExperienceApi, userExperiencesApi } from "@/utills/service/userSideService/userService/UserHomeService";
 import ExperienceList from "./ExperienceList";
 import Loader from "@/components/Loader";
 import { getLocalStorage } from "@/utills/LocalStorageUtills";
@@ -70,8 +70,8 @@ const Home = () => {
 
         const activeUserId = getLocalStorage("user")?._id;
         
-        const response = await userExperienceApi(payload);
-      
+        const response = await userExperiencesApi(payload);
+
         if (response?.isSuccess) {
           let filterData = response.data.filter((item) => item.avatarId !== activeUserId);
          
@@ -88,7 +88,13 @@ const Home = () => {
             return uniqueData;
           });
           setTotalPages(Math.ceil(response.total_items / itemsPerPage));
+        }else if(response?.isSuccess===false){
+          setTimeout(() => {
+            navigate('/auth/login'); // Adjust the path based on your routing setup
+          }, 2000)
         }
+       
+
       } catch (error) {
         console.error(error);
       } finally {

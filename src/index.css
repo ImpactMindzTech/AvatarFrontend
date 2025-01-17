@@ -1060,3 +1060,13 @@ video {
 .custom-check-checkout input:checked + div::after {
   opacity: 1; /* Show the checkmark */
 }
+#avathonDate{
+  appearance: none;
+  -webkit-appearance: none; /* For Safari */
+  -moz-appearance: none;
+}
+#Time{
+  appearance: none;
+  -webkit-appearance: none; /* For Safari */
+  -moz-appearance: none;
+}

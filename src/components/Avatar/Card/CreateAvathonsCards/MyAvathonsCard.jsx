@@ -51,11 +51,12 @@ function MyAvathonsCard({ item, onDelete }) {
           <div className="absolute top-2 right-2 flex gap-2">
         
           </div>
-          <video
+          {item?.avathonsThumbnail==" "?<img className="w-[100%] aspect-[1.4] object-cover rounded-2xl" src={item?.avathonsImage[0]}></img>:<video
                     src={item?.avathonsThumbnail}
-                    controls
+                    loop
+                    autoPlay
                     className="w-[100%] aspect-[1.4] object-cover rounded-2xl"
-                  />
+                  />}
         
         </div>
         <h1 className="text-grey-900 my-2 leading-6 xl:text-lg md:text-sm md:mb-1">

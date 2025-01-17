@@ -35,6 +35,7 @@ export const registrationValidation = yup.object({
     .oneOf([yup.ref("password"), null], "Your password don't match.")
     .required("Confirm password is required."),
   terms: yup.boolean().oneOf([true], "You must agree to the Privacy Policy and Terms of Services.").required("You must agree to the Privacy Policy and Terms of Services."),
+ 
 });
 
 export const loginValidation = yup.object({
