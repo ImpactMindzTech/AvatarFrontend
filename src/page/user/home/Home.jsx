@@ -6,7 +6,7 @@ import UserTopSearch from "@/components/UserTopSearch/UserTopSearch";
 import { userExperienceApi, userExperiencesApi } from "@/utills/service/userSideService/userService/UserHomeService";
 import ExperienceList from "./ExperienceList";
 import Loader from "@/components/Loader";
-import { getLocalStorage } from "@/utills/LocalStorageUtills";
+import { getLocalStorage, removeLocalStorage } from "@/utills/LocalStorageUtills";
 import MultipleAddressModal from "@/components/Modal/MultipleAddressModal";
 import InstantLiveRequestModal from "@/components/Modal/InstantLiveRequestModal";
 import socket from "@/utills/socket/Socket";
@@ -89,9 +89,13 @@ const Home = () => {
           });
           setTotalPages(Math.ceil(response.total_items / itemsPerPage));
         }else if(response?.isSuccess===false){
-          setTimeout(() => {
-            navigate('/auth/login'); // Adjust the path based on your routing setup
-          }, 2000)
+         localStorage.removeItem('token');
+        removeLocalStorage('user');
+        localStorage.removeItem('profileSize');
+        localStorage.removeItem('publicLiveOffers');
+        localStorage.removeItem('avatarTime');
+
+         navigate("/auth/login")
         }
        
 

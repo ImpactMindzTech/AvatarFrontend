@@ -11,11 +11,12 @@ import InstantLiveRequestModal from "@/components/Modal/InstantLiveRequestModal"
 import socket from "@/utills/socket/Socket";
 import { avatarEarningApi } from "@/utills/service/avtarService/Earnings";
 import { addlocationApi, avatarDetailsApi, getAllRecentRequest,offernoti,getnoti } from "@/utills/service/avtarService/HomeService";
-import { getLocalStorage } from "@/utills/LocalStorageUtills";
+import { getLocalStorage, removeLocalStorage } from "@/utills/LocalStorageUtills";
 import { useGeolocated } from "react-geolocated";
 import Loader from "@/components/Loader";
 import { getAvailableApi } from "@/utills/service/avtarService/AddExperienceService";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const AvtarHome = () => {
   const [messageShown, setMessageShown] = useState(false);
@@ -27,7 +28,7 @@ const AvtarHome = () => {
   const [avtarDetails, setAatarDetails] = useState([]);
   const [instanreq, setinstantreq] = useState([]);
   const [earning, setEarning] = useState({});
-
+const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
   const userId = getLocalStorage("user")?._id;
   const { coords } = useGeolocated({
@@ -40,9 +41,11 @@ const AvtarHome = () => {
   const avatarEarning = async () => {
     try {
       const response = await avatarEarningApi();
+      console.log(response);
       if (response) {
         setEarning(response);
       }
+     
     } catch (error) {
       console.log(error);
     }
@@ -55,6 +58,15 @@ const AvtarHome = () => {
       setLoader(false);
       if (response?.isSuccess) {
         setAatarDetails(response?.data);
+      }
+      else if(response?.isSuccess===false){
+   localStorage.removeItem('token');
+          removeLocalStorage('user');
+          localStorage.removeItem('profileSize');
+          localStorage.removeItem('publicLiveOffers');
+          localStorage.removeItem('avatarTime');
+  
+           navigate("/auth/login")
       }
     } catch (error) {
       console.log(error);
