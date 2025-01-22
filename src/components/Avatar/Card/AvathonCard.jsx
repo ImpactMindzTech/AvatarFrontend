@@ -16,10 +16,14 @@ import { getAvailableApi } from "@/utills/service/avtarService/AddExperienceServ
 import { deleteAvathonsApi, getAvathonsApi } from "@/utills/service/avtarService/CreateAvathonsService";
 import Loader from "@/components/Loader";
 import toast from "react-hot-toast";
+import { notifi } from "@/utills/service/userSideService/userService/UserHomeService";
 
 
-const AvathonCard = ({ item, role,experienceStatus,setExperienceStatus }) => {
-
+const AvathonCard = ({ item, role,experienceStatus,setExperienceStatus,getRequests }) => {
+  const videourl = localStorage.getItem('video');
+  const imgUrl = localStorage.getItem('img');
+  const[videosrc,setvideosrc] = useState(videourl || item?.avathonsThumbnail);
+  const[imgsrc,setimgsrc] = useState(imgUrl);
       let navigate = useNavigate();
       const [loader, setLoader] = useState(false);
       const[visible,setvisible]  =useState(false);
@@ -76,12 +80,15 @@ const handleEditAvathons = (item) => {
 
     // Handle specific status cases
     if (item?.avathonsStatus === 'Accepted') {
+      setvisible(true);
       if (timeDifference <= 0) {
-        setvisible(true);
+       
         return 'Start Event';
       }
-    } else if (timeDifference === 0) {
-      setvisible(true);
+    }
+  
+    if(timeDifference<0){
+      setvisible(false);
       return item.avathonsStatus;
     }
 
@@ -101,39 +108,67 @@ const handleEditAvathons = (item) => {
 };
 
  
- useEffect(() => {
-   const interval = setInterval(() => {
-     const newCountdown = getRemainingTime();
-     setCountdown(newCountdown);
- 
-     // Stop the countdown if the event has started
-     if (newCountdown === "Event started") {
-       setvisible(true);
-       clearInterval(interval);
-     }
-   }, 1000);
- 
-   // Clean up the interval when the component unmounts
-   return () => clearInterval(interval);
- }, [mytime, timezone]);
- const createroom = (item)=>{
+useEffect(() => {
+  const interval = setInterval(() => {
+    const newCountdown = getRemainingTime();
+    setCountdown(newCountdown);
+
+    // Stop the countdown if the event has started
+    if (newCountdown === "Event started") {
+      clearInterval(interval);
+    }
+  }, 1000);
+
+  // Cleanup the interval on unmount
+  return () => clearInterval(interval);
+
+}, [mytime, timezone]);  // Dependencies
+
+ const createroom = async(item)=>{
+
+
+  
   const generatedRoomId =  Math.random().toString(36).substr(2, 2);
   setLocalStorage("avId", generatedRoomId);
   navigate(`/avatar/avathon_create/${generatedRoomId}`);
   localStorage.setItem("avathonid",item?._id);
   localStorage.setItem("avathondata",JSON.stringify(item));
+  let body ={
+    id:item?._id
+  }
+  try{
+    const sendres = await notifi(body);
+
+
+  }catch(err){
+    console.log(err);
+  }
  }
+ useEffect(() => {
+  const timeout = setTimeout(() => {
+    setvideosrc(item?.avathonsThumbnail);
+    setimgsrc(item?.avathonsImage[0]);
+  
+  }, 5000);
+
+  // Cleanup function to clear the timeout if the component unmounts
+  return () => clearTimeout(timeout);
+}, [item?.avathonsThumbnail]);
+
+
+
   return (
     <div className="p-4 sm:p-0 sm:mt-2">
       <div className="BoxShadowLessRounded  sm:pb-2">
         <div className="flex p-4 flex-wrap sm:p-2">
-          <div className="w-[30%] relative">
-          {item?.avathonsThumbnail==" "?<img className="w-[100%] aspect-[1.4] object-cover rounded-2xl" src={item?.avathonsImage[0]}></img>:<video
-                    src={item?.avathonsThumbnail}
+          <div className="w-[40%] relative">
+          {item?.avathonsThumbnail==" "?<img className="w-[100%] aspect-[1.4] object-cover rounded-2xl" src={imgsrc}></img>:<video
+                    src={ videosrc}
                     autoPlay
                     muted
                     playsInline 
-                    className="w-[100%] aspect-[1.4] object-cover rounded-2xl"
+                    className="w-[100%] aspect-[1.4] object-cover rounded-xl"
+                  
                   />}
             {role === "avatar" && (
               <div className="absolute bottom-2 right-1 px-2 rounded-full font-bold bg-white text-sm">
@@ -141,7 +176,7 @@ const handleEditAvathons = (item) => {
               </div>
             )}
           </div>
-          <div className="w-[70%] pl-3">
+          <div className="w-[60%] pl-3">
       <div className="flex items-center justify-between">
       <h2 className="text-lg font-bold sm:text-sm leading-5 line-clamp-2">
               {item?.avathonTitle}

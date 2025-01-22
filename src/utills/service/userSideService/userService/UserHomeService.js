@@ -410,3 +410,14 @@ export const Joinavathon = async(id)=>{
     console.log(err);
   }
 }
+export const notifi = async(payload)=>{
+
+  try{
+  const res = await axiosInstance.post("/user/notification",payload);
+  return res.data;
+
+  }catch(err){
+    console.log(err);
+  }
+}
+

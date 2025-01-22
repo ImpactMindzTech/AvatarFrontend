@@ -106,7 +106,7 @@ const ExperiencePage = () => {
                   return <OffersCard key={key} item={item} />;
                 }
                  if(item?.type==="Avathons"){
-                  return <AvathonCard key={key} item={item} experienceStatus={experienceStatus} setExperienceStatus={setExperienceStatus}/>;
+                  return <AvathonCard key={key} item={item} experienceStatus={experienceStatus} setExperienceStatus={setExperienceStatus} getRequests={getRequests}/>;
                  }
                 switch (item?.status) {
                   case "Requested":

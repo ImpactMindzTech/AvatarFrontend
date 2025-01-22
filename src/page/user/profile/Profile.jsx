@@ -58,6 +58,7 @@ function Profile() {
       setLoader(false);
     }
   };
+  console.log(user);
   return (
     <>
       {loader && <Loader />}

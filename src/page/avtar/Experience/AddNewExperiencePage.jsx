@@ -12,6 +12,7 @@ import { Link } from "react-router-dom";
 
 function AddNewExperiencePage() {
   const [messageShown, setMessageShown] = useState(false);
+  const[thumbnail,setthumbnail]= useState()
   const toastShownRef  = useRef(false)
 
 
@@ -25,7 +26,7 @@ function AddNewExperiencePage() {
     setLoader(true);
     try {
       const response = await getExpApi();
-
+    
       if (response?.isSuccess) {
         setExpData(response.data);
         dispatch(setExperinceList(response.data));
@@ -77,7 +78,7 @@ function AddNewExperiencePage() {
 
         <div className="grid grid-cols-4 2xl:grid-cols-3 lg:grid-cols-2 sm:grid-cols-1 xl:grid-cols-3 gap-4 my-2">
           {expData?.map((item) => (
-            <MyExperienceCard key={item?._id} item={item} onDelete={getExp} />
+            <MyExperienceCard key={item?._id} item={item} onDelete={getExp} setExpData={setExpData} />
           ))}
 
           {expData?.length === 0 && <h1 className="text-sm font-medium">No Experience Found</h1>}

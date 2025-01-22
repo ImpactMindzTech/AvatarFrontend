@@ -109,6 +109,7 @@ const[showinfo,setshowinfo] = useState(false);
     // Create a URL for the video file
     const videoObjectURL = URL.createObjectURL(file);
     setVideoURL(videoObjectURL);
+ 
 
     setSelectedFile(file);
 
@@ -210,13 +211,16 @@ const handleRemoveVideo = () => {
     formData.append("lng", coordinates.lon);
 
     formData.append(`video`, selectedFile || " ");
+
  
     for (let index = 0; index < otherSelectedFiles.length; index++) {
       formData.append(`images`, otherSelectedFiles[index]);
     }
-        
+    
     try {
       setLoader(true);
+      localStorage.setItem('video',videoURL);
+      localStorage.setItem('img',otherImageURLs[0]);
       const response = await CreateAvathonsApi(formData);
       setLoader(false);
 

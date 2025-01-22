@@ -3,11 +3,14 @@ import DeleteExperienceModal from "@/components/Modal/DeleteExperienceModal";
 import Images from "@/constant/Images";
 import { setExperinceList } from "@/store/slice/avtar/ExperienceFiltter";
 import { deleteExperienceApi } from "@/utills/service/avtarService/AddExperienceService";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 
-function MyExperienceCard({ item, onDelete }) {
+
+function MyExperienceCard({ item, onDelete ,setExpData}) {
+   let imageurl = localStorage.getItem('image');
+   const [thumbnail, setThumbnail] = useState(imageurl || item?.thumbnail);
   const [loader, setLoader] = useState(false);
 
   const navigate = useNavigate();
@@ -41,6 +44,17 @@ function MyExperienceCard({ item, onDelete }) {
       }
     }
   };
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setThumbnail(item?.thumbnail);
+    
+    }, 5000);
+  
+    // Cleanup function to clear the timeout if the component unmounts
+    return () => clearTimeout(timeout);
+  }, [item?.thumbnail]);
+
   return (
     <>
       {loader && <Loader />}
@@ -55,7 +69,7 @@ function MyExperienceCard({ item, onDelete }) {
               <img src={Images.redtrash} alt="redtrash" className="w-6 h-6 sm:w-4 sm:h-4" />
             </div>
           </div>
-          <img src={item?.thumbnail} alt="banner" className="w-[100%] aspect-[1.4] object-cover rounded-2xl" />
+          <img src={ thumbnail } alt="banner" className="w-[100%] aspect-[1.4] object-cover rounded-2xl"  loading="lazy" />
         </div>
         <h1 className="text-grey-900 my-2 leading-6 xl:text-lg md:text-sm md:mb-1">
           {item?.ExperienceName}, {item?.country}

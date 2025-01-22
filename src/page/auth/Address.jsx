@@ -151,7 +151,8 @@ const Address = () => {
       
 
       if (response?.isSuccess) {
-  
+        let token = getLocalStorage('tk');
+        setLocalStorage('token',token);
         toast.success(response?.message);
         navigate("/user/dashboard");
       } else {

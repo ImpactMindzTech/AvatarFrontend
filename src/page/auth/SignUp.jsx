@@ -67,7 +67,7 @@ const SignUp = () => {
 
       // Append image if it exists
       if (image) {
-        form.append("file", image);
+        form.append("images", image);
       }
 
       // Append all form data fields

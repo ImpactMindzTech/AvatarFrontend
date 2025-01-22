@@ -42,6 +42,8 @@ function MyAvathonsCard({ item, onDelete }) {
       }
     }
   };
+  const videoUrl=localStorage.getItem('video');
+  console.log(videoUrl);
   return (
     <>
       {loader && <Loader />}
@@ -52,7 +54,7 @@ function MyAvathonsCard({ item, onDelete }) {
         
           </div>
           {item?.avathonsThumbnail==" "?<img className="w-[100%] aspect-[1.4] object-cover rounded-2xl" src={item?.avathonsImage[0]}></img>:<video
-                    src={item?.avathonsThumbnail}
+                    src={videoUrl}
                     loop
                     autoPlay
                     className="w-[100%] aspect-[1.4] object-cover rounded-2xl"

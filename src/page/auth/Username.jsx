@@ -53,7 +53,7 @@ const Username = () => {
     const formData = new FormData();
     formData.append("userName", userName); // Append the username
     if (image) {
-      formData.append("file", image); // Append the profile image
+      formData.append("images", image); // Append the profile image
     }
   
     try {

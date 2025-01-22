@@ -73,7 +73,7 @@ const EditProfileAvatar = () => {
     const form = new FormData(); // Initialize form data
   
     if (image) {
-      form.append("file", image); // Append the image to the form data
+      form.append("images", image); // Append the image to the form data
     }
   
     // Append form data fields (like firstName, lastName, etc.)
